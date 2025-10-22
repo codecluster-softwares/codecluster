@@ -5,12 +5,17 @@
   "files.encoding": "utf8",
   "files.eol": "\n",
   "editor.tabSize": 2,
-  "editor.rulers": [80],
+  "editor.rulers": [80, 100],
 
   // Format on save (require recommended extensions).
   "editor.formatOnSave": true,
   "editor.codeActionsOnSave": { "source.organizeImports": "always" },
   "editor.defaultFormatter": "esbenp.prettier-vscode",
+  "[toml]": { "editor.defaultFormatter": "tamasfe.even-better-toml" },
+  "[rust]": {
+    "editor.defaultFormatter": "rust-lang.rust-analyzer",
+    "editor.tabSize": 4
+  },
 
   // File nesting patterns (enable as you wish).
   // "explorer.fileNesting.enabled": true,
@@ -31,6 +36,25 @@
   "[json]": { "editor.wordWrap": "wordWrapColumn" },
 
   // Code spell checker (require recommended extensions).
-  "cSpell.ignorePaths": ["node_modules", "out", "pnpm-lock.yaml"],
-  "cSpell.words": ["codecluster", "esbenp", "esbuild", "oxlint", "vite"]
+  "cSpell.ignorePaths": [
+    "node_modules",
+    "out",
+    "target",
+    "pnpm-lock.yaml",
+    "Cargo.lock"
+  ],
+  "cSpell.words": [
+    "cdylib",
+    "codecluster",
+    "esbenp",
+    "esbuild",
+    "icns",
+    "oxlint",
+    "rlib",
+    "serde",
+    "staticlib",
+    "tamasfe",
+    "tauri",
+    "vite"
+  ]
 }

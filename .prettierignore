@@ -1,2 +1,3 @@
 # Git tracked but auto-generated files.
 pnpm-lock.yaml
+Cargo.lock

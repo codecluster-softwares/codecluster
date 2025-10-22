@@ -9,3 +9,7 @@ Desktop.ini
 # Node.
 node_modules
 out
+
+# Rust and Tauri.
+target
+gen

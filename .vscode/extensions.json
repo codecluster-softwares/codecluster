@@ -1,9 +1,12 @@
 {
   "recommendations": [
     // Languages & frameworks.
+    "rust-lang.rust-analyzer",
+    "tauri-apps.tauri-vscode",
     "vue.volar",
 
     // Configurations.
+    "tamasfe.even-better-toml",
     "redhat.vscode-yaml",
 
     // Code qualities.

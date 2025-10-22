@@ -5,22 +5,25 @@
   "type": "module",
   "private": true,
   "scripts": {
-    "format": "prettier --write .",
-    "review": "prettier --check . && oxlint",
-    "typecheck": "vue-tsc --noEmit",
+    "format": "prettier --write . && cargo fmt",
+    "review": "prettier --check . && oxlint && vue-tsc --noEmit && cargo check",
     "dev": "DOCS_MODE=true vite dev",
     "build": "vue-tsc --noEmit && DOCS_MODE=true vite build"
   },
   "dependencies": {
+    "@tauri-apps/api": "^2.9.0",
+    "@tauri-apps/plugin-opener": "^2.5.0",
     "vue": "^3.5.22",
     "vue-router": "^4.6.3"
   },
   "devDependencies": {
+    "@tauri-apps/cli": "^2.9.0",
     "@types/node": "^24.9.1",
     "@vitejs/plugin-vue": "^6.0.1",
     "oxlint": "^1.23.0",
     "prettier": "^3.6.2",
     "prettier-plugin-sh": "^0.18.0",
+    "prettier-plugin-toml": "^2.0.6",
     "sass": "^1.93.2",
     "typescript": "^5.9.3",
     "vite": "^7.1.11",
