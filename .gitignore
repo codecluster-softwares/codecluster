@@ -13,3 +13,6 @@ out
 # Rust and Tauri.
 target
 gen
+
+*storybook.log
+storybook-static

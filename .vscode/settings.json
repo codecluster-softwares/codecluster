@@ -22,6 +22,8 @@
   // "explorer.fileNesting.expand": false,
   "explorer.fileNesting.patterns": {
     "*": "${capture}.map",
+    "*.ts": "${capture}.test.ts",
+    "*.vue": "${capture}.stories.tsx",
     "package.json": "pnpm-lock.yaml",
     "tsconfig.json": "tsconfig.node.json",
     "vite.config.ts": "vite-env.d.ts",
@@ -55,6 +57,7 @@
     "staticlib",
     "tamasfe",
     "tauri",
-    "vite"
+    "vite",
+    "vitest"
   ]
 }

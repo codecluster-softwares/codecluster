@@ -1,0 +1,17 @@
+html {
+  height: 100%;
+
+  body.sb-show-main {
+    height: 100vh;
+    padding: 0 !important;
+
+    user-select: none;
+    font-family: sans-serif;
+
+    div#storybook-root {
+      position: relative;
+      height: 100%;
+      width: 100%;
+    }
+  }
+}

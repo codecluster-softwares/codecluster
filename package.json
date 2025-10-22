@@ -5,10 +5,14 @@
   "type": "module",
   "private": true,
   "scripts": {
+    "postinstall": "playwright install",
     "format": "prettier --write . && cargo fmt",
     "review": "prettier --check . && oxlint && vue-tsc --noEmit && cargo check",
+    "test": "vitest run || vitest run",
     "dev": "DOCS_MODE=true vite dev",
-    "build": "vue-tsc --noEmit && DOCS_MODE=true vite build"
+    "build": "vue-tsc --noEmit && DOCS_MODE=true vite build",
+    "storybook": "storybook dev -p 6006",
+    "build-storybook": "storybook build"
   },
   "dependencies": {
     "@tauri-apps/api": "^2.9.0",
@@ -17,16 +21,27 @@
     "vue-router": "^4.6.3"
   },
   "devDependencies": {
+    "@chromatic-com/storybook": "^4.1.1",
+    "@storybook/addon-a11y": "^9.1.13",
+    "@storybook/addon-docs": "^9.1.13",
+    "@storybook/addon-vitest": "^9.1.13",
+    "@storybook/vue3-vite": "^9.1.13",
     "@tauri-apps/cli": "^2.9.0",
     "@types/node": "^24.9.1",
     "@vitejs/plugin-vue": "^6.0.1",
+    "@vitejs/plugin-vue-jsx": "^5.1.1",
+    "@vitest/browser": "^3.2.4",
+    "@vitest/coverage-v8": "^3.2.4",
     "oxlint": "^1.23.0",
+    "playwright": "^1.56.1",
     "prettier": "^3.6.2",
     "prettier-plugin-sh": "^0.18.0",
     "prettier-plugin-toml": "^2.0.6",
     "sass": "^1.93.2",
+    "storybook": "^9.1.13",
     "typescript": "^5.9.3",
     "vite": "^7.1.11",
+    "vitest": "^3.2.4",
     "vue-tsc": "^3.1.1"
   }
 }
