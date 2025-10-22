@@ -4,13 +4,13 @@ import { createRouter, createWebHistory, RouteRecordRaw } from "vue-router"
 
 function* routes(): Generator<RouteRecordRaw> {
   yield {
-    path: "/error/:title?/:message?",
     component: () => import("@/routes/error.vue"),
+    path: "/error",
   }
 
   yield {
-    path: "/:pathMatch(.*)*",
     component: () => import("@/routes/error.vue"),
+    path: "/:pathMatch(.*)*",
     props: {
       title: "404 - Page Not Found",
       message: "Sorry, the page you are looking for does not exist.",

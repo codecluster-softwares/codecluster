@@ -4,9 +4,9 @@ import { RouterLink, useRoute } from "vue-router"
 
 const route = useRoute()
 
-const title = computed(() => (route.params.title as string) || "Error")
+const title = computed(() => (route.query.title as string) || "Error")
 const message = computed(
-  () => (route.params.message as string) || "Unknown error occurred",
+  () => (route.query.message as string) || "Unknown error occurred",
 )
 </script>
 
