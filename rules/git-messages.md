@@ -31,6 +31,7 @@
 - Same type/scope for both versions.
 - Accurate translation.
 - Separate with `---`.
+- Scope is optional, can be omitted.
 
 ### Types
 
@@ -47,7 +48,8 @@
 
 ### Scope
 
-- Use dir/component name: `app`, `docs`, `scripts`, `config`
+- Optional: use dir/component name: `app`, `docs`, `scripts`, `config`
+- Omit scope when not applicable
 - `rules` is type, not scope
 
 ### Subject
