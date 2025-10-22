@@ -5,7 +5,7 @@
   "type": "module",
   "private": true,
   "scripts": {
-    "postinstall": "playwright install && husky install",
+    "postinstall": "tsx scripts/postinstall.ts",
     "prepare-rules": "tsx scripts/prepare-rules.ts",
     "format": "prettier --write .",
     "review": "prettier --check . && oxlint && vue-tsc --noEmit",
