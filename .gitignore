@@ -14,8 +14,8 @@ out
 target
 gen
 
-# Cluster workspace.
-.cluster
+# Code Cluster workspace.
+.codecluster
 
 # Generated Git messages.
 .commit.md

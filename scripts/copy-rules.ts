@@ -150,6 +150,33 @@ export async function copyRules(
 }
 
 /**
+ * Calculates the total size in bytes of all rule files in the source directory.
+ *
+ * @param from - The source directory containing rules to calculate size for.
+ * @returns The total size in bytes of all rule files.
+ */
+function calculateTotalRulesSize(from: string): number {
+  if (!existsSync(from)) {
+    consola.warn(`Source directory does not exist: ${chalk.dim(from)}`)
+    return 0
+  }
+
+  const items = readdirSync(from)
+  let totalSize = 0
+
+  items.forEach((item) => {
+    const filePath = join(from, item)
+    const stat = statSync(filePath)
+
+    if (stat.isFile() && item.endsWith(".md")) {
+      totalSize += stat.size
+    }
+  })
+
+  return totalSize
+}
+
+/**
  * Copies rules for all specified tools.
  *
  * @param from - The source directory containing rules to copy.
@@ -160,6 +187,10 @@ export async function copyRulesAll(
   from: string,
   options: ToolOptions[],
 ): Promise<number> {
+  // Calculate total rules size before processing
+  const totalRulesSize = calculateTotalRulesSize(from)
+  consola.info(`Total rules size: ${chalk.cyan(totalRulesSize)} bytes`)
+
   const promises = options.map(async (tool) => {
     return await copyRules(from, tool)
   })
@@ -168,7 +199,9 @@ export async function copyRulesAll(
   const successfulTools = results.filter((count) => count > 0).length
 
   consola.success(
-    `Rules preparation completed! ${chalk.cyan(successfulTools)} tools configured.`,
+    `Rules preparation completed! ` +
+      `${chalk.cyan(successfulTools)} tools configured, ` +
+      `${chalk.cyan(totalRulesSize)} bytes total.`,
   )
   return successfulTools
 }
