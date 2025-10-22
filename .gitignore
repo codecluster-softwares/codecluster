@@ -14,5 +14,13 @@ out
 target
 gen
 
-*storybook.log
-storybook-static
+# Cluster workspace.
+.cluster
+
+# Generated rule files
+.clinerules/
+.roo/
+CLAUDE.md
+AGENTS.md
+QWEN.md
+.instructions.md

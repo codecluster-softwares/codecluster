@@ -27,7 +27,8 @@
     "package.json": "pnpm-lock.yaml",
     "tsconfig.json": "tsconfig.node.json",
     "vite.config.ts": "vite-env.d.ts",
-    "readme.md": "license"
+    ".instructions.md": "agents.md, claude.md, qwen.md",
+    "readme.md": "license, .instructions.md"
   },
 
   // Output bundle visualizations.
@@ -47,11 +48,13 @@
   ],
   "cSpell.words": [
     "cdylib",
+    "clinerules",
     "codecluster",
     "esbenp",
     "esbuild",
     "icns",
     "oxlint",
+    "qwen",
     "rlib",
     "serde",
     "staticlib",
