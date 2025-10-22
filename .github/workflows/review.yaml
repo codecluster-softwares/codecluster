@@ -4,18 +4,28 @@ on:
   pull_request: { branches: ["main"] }
 
 jobs:
-  setup-linux:
+  pnpm:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+      - uses: actions/setup-node@v4
+      - uses: pnpm/action-setup@v4
+        with: { version: 10 }
+
+      - run: pnpm install
+      - run: pnpm review
+      - run: pnpm test
+      - run: pnpm build
+
+  cargo:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v5
 
-      - name: Update Linux(Debian/Ubuntu) package manager index
-        run: sudo apt-get update
-
-      # Tauri requires some prerequisites, or cargo cannot build.
-      # see: https://tauri.app/start/prerequisites/#linux
-      - name: Install Tauri prerequisites on Linux(Debian/Ubuntu)
-        run: sudo apt-get install -y
+      # Tauri prerequisites on Linux (Debian/Ubuntu).
+      # see https://tauri.app/start/prerequisites/#linux
+      - run: sudo apt-get update
+      - run: sudo apt-get install
           libwebkit2gtk-4.1-dev
           build-essential
           curl
@@ -26,46 +36,5 @@ jobs:
           libayatana-appindicator3-dev
           librsvg2-dev
 
-  pnpm-reviews:
-    needs: setup-linux
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v5
-      - uses: actions/setup-node@v4
-      - uses: pnpm/action-setup@v4
-        with: { version: 10 }
-
-      - name: Cache pnpm dependencies
-        uses: actions/cache@v3
-        with:
-          path: |
-            ~/.pnpm-store
-            node_modules
-          key: ${{ runner.os }}-pnpm-${{ hashFiles('**/pnpm-lock.yaml') }}
-          restore-keys: |
-            ${{ runner.os }}-pnpm-
-
-      - run: pnpm install --frozen-lockfile
-      - run: pnpm review
-      - run: pnpm test
-      - run: pnpm build
-
-  cargo-reviews:
-    needs: setup-linux
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v5
-      - name: Cache cargo registry
-        uses: actions/cache@v3
-        with:
-          path: |
-            ~/.cargo/registry
-            ~/.cargo/git
-            target
-          key: ${{ runner.os }}-cargo-${{ hashFiles('**/Cargo.lock') }}
-          restore-keys: |
-            ${{ runner.os }}-cargo-
-
-      - run: cargo build
       - run: cargo check
       - run: cargo test
