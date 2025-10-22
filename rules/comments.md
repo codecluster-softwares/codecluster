@@ -1,19 +1,18 @@
 # Comment Guidelines
 
-## Documentation Guidelines
+## Documentation
 
-1. Prefer doc comments over inline comments in function bodies.
+1. Prefer doc comments over inline comments.
 2. Write doc comments for all exported APIs.
-3. Interface props don't need detailed doc comments.
-4. Document function params and return values in detail.
-5. Omit comment docs for self-explanatory props obvious from names.
+3. Skip detailed comments for obvious interface props.
+4. Document function params and return values.
 
-## Comment Structure
+## Structure
 
-1. First line should provide a brief summary.
-2. Use ordered list for detailed desc when you have 3+ points.
-3. Use paragraph format if ordered list has fewer than 3 points.
-4. Use unordered lists only for simple true/false or binary desc.
-5. Add paragraphs after ordered lists for more detailed explanations.
-6. Include param desc with their types and purposes.
-7. Document return values with their types and meanings.
+1. First line: brief summary.
+2. Use ordered lists for 3+ points.
+3. Use paragraphs for fewer than 3 points.
+4. Use unordered lists for true/false items.
+5. Add paragraphs after lists for details.
+6. Include param types and purposes.
+7. Document return types and meanings.

@@ -1,9 +1,9 @@
 # Language Guidelines
 
-1. Detect user's lang from prompt context.
-2. Answer questions in user's lang of asking.
-3. Use English for all code, comments, and rules.
-4. When using English, concise is more preferred than grammar.
-5. Add trailing dots for all paras, ordered or unordered list items.
-6. Control line width to 80 chars max for better readability.
-7. Use abbreviations over full terms when meaning is clear.
+1. Detect user lang from context.
+2. Answer in user's asking lang.
+3. Use English for code/comments/rules.
+4. Prefer concise over grammar.
+5. Add trailing dots to all items.
+6. Max 80 chars line width.
+7. Use abbreviations when clear.
