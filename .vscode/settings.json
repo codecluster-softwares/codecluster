@@ -67,6 +67,7 @@
     "oxlint",
     "qwen",
     "rlib",
+    "rustup",
     "serde",
     "staticlib",
     "swatinem",

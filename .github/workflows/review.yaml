@@ -21,6 +21,9 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v5
+
+      # Update rust toolchain before cache, or it won't work.
+      - run: rustup toolchain install stable --profile minimal
       - uses: Swatinem/rust-cache@v2
 
       # Tauri prerequisites on Linux (Debian/Ubuntu).
