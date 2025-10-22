@@ -11,12 +11,18 @@ import {
 } from "node:fs"
 import { dirname, join } from "node:path"
 
+/**
+ * Configuration options for a tool that uses rules.
+ */
 export type ToolOptions = {
   name: string
   path: string
   kind: "file" | "dir"
 }
 
+/**
+ * List of tools that use rules with their respective configurations.
+ */
 export const tools: ToolOptions[] = [
   { name: "Cline Code", path: ".clinerules", kind: "dir" },
   { name: "Claude Code", path: "CLAUDE.md", kind: "file" },
@@ -26,6 +32,13 @@ export const tools: ToolOptions[] = [
   { name: "VSCode", path: ".instructions.md", kind: "file" },
 ]
 
+/**
+ * Recursively copies all files from a source folder to a target folder.
+ *
+ * @param from - The source folder path to copy from.
+ * @param to - The target folder path to copy to.
+ * @returns The number of files successfully copied.
+ */
 export async function copyRulesFolder(
   from: string,
   to: string,
@@ -56,6 +69,13 @@ export async function copyRulesFolder(
   return fileCount
 }
 
+/**
+ * Bundles multiple markdown files from a source directory into a single target file.
+ *
+ * @param from - The source directory containing .md files to bundle.
+ * @param to - The target file path where bundled content will be written.
+ * @returns The number of files successfully bundled.
+ */
 export async function bundleRuleFile(
   from: string,
   to: string,
@@ -90,6 +110,13 @@ export async function bundleRuleFile(
   return mdFiles.length
 }
 
+/**
+ * Copies or bundles rules based on the tool configuration.
+ *
+ * @param from - The source directory containing rules to copy.
+ * @param options - The tool configuration specifying how to handle the rules.
+ * @returns The number of files processed (copied or bundled).
+ */
 export async function copyRules(
   from: string,
   options: ToolOptions,
@@ -122,6 +149,13 @@ export async function copyRules(
   return fileCount
 }
 
+/**
+ * Copies rules for all specified tools.
+ *
+ * @param from - The source directory containing rules to copy.
+ * @param options - Array of tool configurations to process.
+ * @returns The number of tools that were successfully configured.
+ */
 export async function copyRulesAll(
   from: string,
   options: ToolOptions[],
