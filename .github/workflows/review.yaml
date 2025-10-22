@@ -21,6 +21,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v5
+      - uses: Swatinem/rust-cache@v2
 
       # Tauri prerequisites on Linux (Debian/Ubuntu).
       # see https://tauri.app/start/prerequisites/#linux
@@ -36,5 +37,6 @@ jobs:
           libayatana-appindicator3-dev
           librsvg2-dev
 
+      - run: cargo build
       - run: cargo check
       - run: cargo test

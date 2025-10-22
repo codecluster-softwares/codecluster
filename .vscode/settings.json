@@ -69,6 +69,7 @@
     "rlib",
     "serde",
     "staticlib",
+    "swatinem",
     "tamasfe",
     "tauri",
     "vite",
