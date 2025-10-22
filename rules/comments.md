@@ -6,6 +6,8 @@
 2. Write doc comments for all exported APIs.
 3. Skip detailed comments for obvious interface props.
 4. Document function params and return values.
+5. Avoid inline comments whenever possible.
+6. If inline comments are necessary, always end them with a period.
 
 ## Structure
 
@@ -16,3 +18,4 @@
 5. Add paragraphs after lists for details.
 6. Include param types and purposes.
 7. Document return types and meanings.
+8. Always end complete sentences with periods.

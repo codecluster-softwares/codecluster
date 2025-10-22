@@ -75,6 +75,7 @@
     "swatinem",
     "tamasfe",
     "tauri",
+    "thiserror",
     "vite",
     "vitest"
   ]
