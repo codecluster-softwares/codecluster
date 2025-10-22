@@ -6,6 +6,8 @@
 2. Write doc comments for all exported APIs.
 3. Skip detailed comments for obvious interface props.
 4. Document function params and return values.
+5. Avoid unnecessary inline comments.
+6. Only add inline comments for meaningful context.
 
 ## Structure
 
