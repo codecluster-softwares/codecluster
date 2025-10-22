@@ -9,6 +9,7 @@ name = "codecluster_tauri"
 crate-type = ["staticlib", "cdylib", "rlib"]
 
 [dependencies]
+codecluster = { workspace = true, features = [] }
 serde = "1.0.228"
 serde_json = "1.0.145"
 tauri = { version = "2.9.0", features = [] }
