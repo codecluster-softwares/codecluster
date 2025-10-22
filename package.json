@@ -24,6 +24,7 @@
     "@chromatic-com/storybook": "^4.1.1",
     "@storybook/addon-a11y": "^9.1.13",
     "@storybook/addon-docs": "^9.1.13",
+    "@storybook/addon-themes": "^9.1.13",
     "@storybook/addon-vitest": "^9.1.13",
     "@storybook/vue3-vite": "^9.1.13",
     "@tauri-apps/cli": "^2.9.0",
