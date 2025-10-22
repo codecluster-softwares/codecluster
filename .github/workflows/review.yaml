@@ -7,12 +7,32 @@ jobs:
   review:
     runs-on: ubuntu-latest
     steps:
+      # Node and pnpm environment.
       - uses: actions/checkout@v5
       - uses: actions/setup-node@v4
       - uses: pnpm/action-setup@v4
         with: { version: 10 }
 
+      # Node workspace review.
       - run: pnpm install
       - run: pnpm review
       - run: pnpm test
       - run: pnpm build
+
+      # Tauri prerequisites on Linux (Debian/Ubuntu).
+      - run: sudo apt-get update
+      - run: sudo apt-get install
+          libwebkit2gtk-4.1-dev
+          build-essential
+          curl
+          wget
+          file
+          libxdo-dev
+          libssl-dev
+          libayatana-appindicator3-dev
+          librsvg2-dev
+
+      # Cargo workspace review.
+      - run: cargo build
+      - run: cargo check
+      - run: cargo test
