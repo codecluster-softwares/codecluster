@@ -1,3 +1,6 @@
 # Git tracked but auto-generated files.
 pnpm-lock.yaml
 Cargo.lock
+
+# Cannot ignore by nested gitignores.
+.husky/_

@@ -17,7 +17,11 @@ gen
 # Cluster workspace.
 .cluster
 
-# Generated rule files
+# Generated Git messages.
+.commit.md
+.message.md
+
+# Generated rule files.
 .clinerules/
 .roo/
 CLAUDE.md

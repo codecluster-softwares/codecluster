@@ -1,0 +1,7 @@
+#!/usr/bin/env sh
+
+# Review but not test before normal commits.
+pnpm install
+pnpm review
+cargo build
+cargo check
