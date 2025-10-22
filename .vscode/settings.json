@@ -32,11 +32,16 @@
   },
 
   // Output bundle visualizations.
-  "files.associations": { "*.map": "json" },
   "editor.wordWrapColumn": 80,
   "[javascript]": { "editor.wordWrap": "wordWrapColumn" },
   "[css]": { "editor.wordWrap": "wordWrapColumn" },
   "[json]": { "editor.wordWrap": "wordWrapColumn" },
+
+  // Special files.
+  "files.associations": {
+    "*.map": "json",
+    "pre-commit": "shellscript"
+  },
 
   // Code spell checker (require recommended extensions).
   "cSpell.ignorePaths": [

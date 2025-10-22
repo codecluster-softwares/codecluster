@@ -60,6 +60,9 @@ importers:
       consola:
         specifier: ^3.4.2
         version: 3.4.2
+      husky:
+        specifier: ^9.1.7
+        version: 9.1.7
       oxlint:
         specifier: ^1.23.0
         version: 1.23.0
@@ -1369,6 +1372,11 @@ packages:
 
   html-escaper@2.0.2:
     resolution: {integrity: sha512-H2iMtd0I4Mt5eYiapRdIDjp+XzelXQ0tFE4JS7YFwFevXXMmOp9myNrUvCg0D6ws8iqkRPBfKHgbwig1SmlLfg==}
+
+  husky@9.1.7:
+    resolution: {integrity: sha512-5gs5ytaNjBrh5Ow3zrvdUUY+0VxIuWVL4i9irt6friV+BqdCfmV11CQTWMiBYWHbXhco+J1kHfTOUkePhCDvMA==}
+    engines: {node: '>=18'}
+    hasBin: true
 
   immutable@5.1.4:
     resolution: {integrity: sha512-p6u1bG3YSnINT5RQmx/yRZBpenIl30kVxkTLDyHLIMk0gict704Q9n+thfDI7lTRm9vXdDYutVzXhzcThxTnXA==}
@@ -3250,6 +3258,8 @@ snapshots:
   he@1.2.0: {}
 
   html-escaper@2.0.2: {}
+
+  husky@9.1.7: {}
 
   immutable@5.1.4: {}
 
