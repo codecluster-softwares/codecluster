@@ -18,7 +18,8 @@
   "explorer.fileNesting.patterns": {
     "*": "${capture}.map",
     "package.json": "pnpm-lock.yaml",
-    "tsconfig.json": "tsconfig.*.json",
+    "tsconfig.json": "tsconfig.node.json",
+    "vite.config.ts": "vite-env.d.ts",
     "readme.md": "license"
   },
 
@@ -31,5 +32,5 @@
 
   // Code spell checker (require recommended extensions).
   "cSpell.ignorePaths": ["node_modules", "out", "pnpm-lock.yaml"],
-  "cSpell.words": ["codecluster", "esbenp", "oxlint"]
+  "cSpell.words": ["codecluster", "esbenp", "esbuild", "oxlint", "vite"]
 }
