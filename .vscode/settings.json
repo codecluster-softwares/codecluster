@@ -28,7 +28,7 @@
     "tsconfig.json": "tsconfig.node.json",
     "vite.config.ts": "vite-env.d.ts",
     ".instructions.md": "agents.md, claude.md, qwen.md",
-    "readme.md": "license, .instructions.md"
+    "readme.md": "readme_zh.md, license, .instructions.md"
   },
 
   // Output bundle visualizations.
