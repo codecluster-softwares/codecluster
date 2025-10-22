@@ -28,49 +28,49 @@
 <translated_footer>
 ```
 
-- Same type/scope for both versions.
-- Accurate translation.
-- Separate with `---`.
-- Scope is optional, can be omitted.
+1. Same type/scope for both versions.
+2. Accurate translation.
+3. Separate with `---`.
+4. Scope is optional, can be omitted.
 
 ### Types
 
-- `feat`: New feature
-- `fix`: Bug fix
-- `docs`: Documentation
-- `perf`: Performance
-- `test`: Tests
-- `rules`: Rule changes
-- `build`: Build system
-- `chore`: Other changes
-- `revert`: Revert commit
-- `merge`: Merge operations
+1. `feat`: New feature.
+2. `fix`: Bug fix.
+3. `docs`: Documentation.
+4. `perf`: Performance.
+5. `test`: Tests.
+6. `rules`: Rule changes.
+7. `build`: Build system.
+8. `chore`: Other changes.
+9. `revert`: Revert commit.
+10. `merge`: Merge operations.
 
 ### Scope
 
-- Optional: use dir/component name: `app`, `docs`, `scripts`, `config`
-- Omit scope when not applicable
-- `rules` is type, not scope
+1. Optional: use dir/component name: `app`, `docs`, `scripts`, `config`.
+2. Omit scope when not applicable.
+3. `rules` is type, not scope.
 
 ### Subject
 
-- Imperative present tense
-- Lowercase first letter
-- No ending dot
-- Max 50 chars
+1. Imperative present tense.
+2. Lowercase first letter.
+3. No ending dot.
+4. Max 50 chars.
 
 ### Body
 
-- Imperative present tense
-- Explain what/why vs how
-- Use ordered lists
-- Wrap at 72 chars
-- Add trailing dots
+1. Imperative present tense.
+2. Explain what/why vs how.
+3. Use ordered lists.
+4. Wrap at 72 chars.
+5. Add trailing dots.
 
 ### Footer
 
-- Reference issues
-- BREAKING CHANGE
+1. Reference issues.
+2. BREAKING CHANGE.
 
 ## PR Messages
 
