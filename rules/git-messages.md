@@ -6,8 +6,9 @@
 2. Use `git status` command to identify changed files and their status.
 3. Use `git diff` command to review specific changes in modified files.
 4. Use `git diff --staged` command to review staged changes.
-5. Use `git log --oneline -5` command to understand recent commit context.
+5. Use `git log --oneline -10` command to understand recent commit context.
 6. Analyze the changes to determine the appropriate commit type and scope.
+7. Detect user's language from prompt context and generate additional commit message in user's language only when different from English.
 
 ## Commit Message Format
 
@@ -21,6 +22,31 @@ Follow this structured format for all commit messages:
 <footer>
 ```
 
+### Multi-language Support
+
+When user's language is different from English, append an additional commit message in user's language after the English version. If user's language is English, only generate the English version.
+
+```
+<type>(<scope>): <subject>
+
+<body>
+
+<footer>
+
+---
+
+<type>(<scope>): <translated_subject>
+
+<translated_body>
+
+<translated_footer>
+```
+
+- Use the same commit type and scope for both versions.
+- Translate subject, body, and footer content accurately.
+- Maintain the same structure and formatting rules.
+- Separate language versions with `---` on a single line.
+
 ### Type (Required)
 
 Use one of these commit types:
@@ -28,13 +54,11 @@ Use one of these commit types:
 - `feat`: A new feature
 - `fix`: A bug fix
 - `docs`: Documentation only changes
-- `style`: Changes that do not affect the meaning of the code (white-space, formatting, missing semi-colons, etc)
-- `refactor`: A code change that neither fixes a bug nor adds a feature
 - `perf`: A code change that improves performance
 - `test`: Adding missing tests or correcting existing tests
+- `rules`: Changes about the rules
 - `build`: Changes that affect the build system or external dependencies
-- `ci`: Changes to CI configuration files and scripts
-- `chore`: Other changes that don't modify src or test files
+- `chore`: Other changes that had not been classified
 - `revert`: Reverts a previous commit
 
 ### Scope (Optional)
@@ -68,60 +92,33 @@ Specify the scope of the change:
 
 ## Examples
 
-### Example 1: Adding new rules
+### Example 1: Adding new features
 
 ```
-feat(rules): add git commit message guidelines
+feat(app): add user authentication system
 
-1. Create comprehensive git commit message rules.
-2. Define commit message format and structure.
-3. Provide examples for different change types.
-4. Document command usage for change analysis.
-
-Closes #123
+1. Implement login and registration functionality.
+2. Add password hashing and validation.
+3. Create session management system.
+4. Include error handling for authentication failures.
 ```
 
-### Example 2: Fixing a bug
+### Example 2: Multi-language commit message
 
 ```
-fix(app): resolve component rendering issue
+feat(docs): add multi-language commit message support
 
-1. Fix race condition in component lifecycle.
-2. Add proper error handling for async operations.
-3. Update component tests to cover edge cases.
+1. Detect user's language from prompt context.
+2. Generate additional commit message in user's language only when different from English.
+3. Maintain same commit type and scope structure.
+4. Separate language versions with horizontal rule.
 
-Fixes #456
-```
+---
 
-### Example 3: Documentation update
+feat(docs): [translated subject]
 
-```
-docs(readme): update installation instructions
-
-1. Add pnpm installation steps.
-2. Include environment setup requirements.
-3. Clarify configuration options.
-4. Fix broken links in documentation.
-```
-
-### Example 4: Refactoring code
-
-```
-refactor(scripts): improve rule preparation logic
-
-1. Extract file copying into separate function.
-2. Add error handling for file operations.
-3. Improve code readability with better variable names.
-4. Remove duplicate code patterns.
-```
-
-### Example 5: Configuration change
-
-```
-chore(config): update prettier configuration
-
-1. Add new file patterns to prettierignore.
-2. Update line length limit to 100 characters.
-3. Configure trailing commas for ES5 compatibility.
-4. Set tab width to 2 spaces.
+1. [translated body point 1].
+2. [translated body point 2].
+3. [translated body point 3].
+4. [translated body point 4].
 ```
