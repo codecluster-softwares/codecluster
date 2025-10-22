@@ -20,6 +20,7 @@ jobs:
       - run: pnpm build
 
       # Tauri prerequisites on Linux (Debian/Ubuntu).
+      # see https://tauri.app/start/prerequisites/#linux
       - run: sudo apt-get update
       - run: sudo apt-get install
           libwebkit2gtk-4.1-dev
@@ -33,6 +34,5 @@ jobs:
           librsvg2-dev
 
       # Cargo workspace review.
-      - run: cargo build
       - run: cargo check
       - run: cargo test
