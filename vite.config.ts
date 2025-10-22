@@ -12,7 +12,10 @@ const tauriDebug = env.TAURI_ENV_DEBUG === "true"
 
 const testCode = defineProject({
   root,
-  test: { include: [join(root, "@(app|scripts)/**/*.test.ts")] },
+  test: {
+    name: "code",
+    include: [join(root, "@(app|scripts)/**/*.test.ts")],
+  },
 })
 
 const testStorybook = defineProject({

@@ -86,7 +86,10 @@ export async function bundleRuleFile(
   }
 
   const targetDir = dirname(to)
-  mkdirSync(targetDir, { recursive: true })
+  // Only create directory if it's not the current directory
+  if (targetDir !== ".") {
+    mkdirSync(targetDir, { recursive: true })
+  }
 
   const items = readdirSync(from)
   const mdFiles = items.filter((item) => item.endsWith(".md"))

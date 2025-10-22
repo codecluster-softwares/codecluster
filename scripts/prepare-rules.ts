@@ -1,5 +1,5 @@
-import { join, normalize } from "node:path"
+import { join } from "node:path"
 import { copyRulesAll, tools } from "./copy-rules"
+import { root } from "./utils"
 
-const root = normalize(join(import.meta.dirname, ".."))
 await copyRulesAll(join(root, "rules"), tools)
