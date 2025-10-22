@@ -1,18 +1,6 @@
-# Git Commit Message Guidelines
+# Git Commit Message Format
 
-## Commit Message Generation Process
-
-1. After completing any task, generate a commit message in `.commit.md` file at workspace root.
-2. Use `git status` command to identify changed files and their status.
-3. Use `git diff` command to review specific changes in modified files.
-4. Use `git diff --staged` command to review staged changes.
-5. Use `git log --oneline -10` command to understand recent commit context.
-6. Analyze the changes to determine the appropriate commit type and scope.
-7. Detect user's language from prompt context and generate additional commit message in user's language only when different from English.
-
-## Commit Message Format
-
-Follow this structured format for all commit messages:
+## Format
 
 ```
 <type>(<scope>): <subject>
@@ -22,9 +10,7 @@ Follow this structured format for all commit messages:
 <footer>
 ```
 
-### Multi-language Support
-
-When user's language is different from English, append an additional commit message in user's language after the English version. If user's language is English, only generate the English version.
+### Multi-lang Support
 
 ```
 <type>(<scope>): <subject>
@@ -42,161 +28,59 @@ When user's language is different from English, append an additional commit mess
 <translated_footer>
 ```
 
-- Use the same commit type and scope for both versions.
-- Translate subject, body, and footer content accurately.
-- Maintain the same structure and formatting rules.
-- Separate language versions with `---` on a single line.
+- Same type/scope for both versions.
+- Accurate translation.
+- Separate with `---`.
+- Scope is optional, can be omitted.
 
-### Type (Required)
+### Types
 
-Use one of these commit types:
+- `feat`: New feature
+- `fix`: Bug fix
+- `docs`: Documentation
+- `perf`: Performance
+- `test`: Tests
+- `rules`: Rule changes
+- `build`: Build system
+- `chore`: Other changes
+- `revert`: Revert commit
+- `merge`: Merge operations
 
-- `feat`: A new feature
-- `fix`: A bug fix
-- `docs`: Documentation only changes
-- `perf`: A code change that improves performance
-- `test`: Adding missing tests or correcting existing tests
-- `rules`: Changes about the rules
-- `build`: Changes that affect the build system or external dependencies
-- `chore`: Other changes that had not been classified
-- `revert`: Reverts a previous commit
-- `merge`: Merge operations and conflict resolutions
+### Scope
 
-### Scope (Optional)
+- Optional: use dir/component name: `app`, `docs`, `scripts`, `config`
+- Omit scope when not applicable
+- `rules` is type, not scope
 
-Specify the scope of the change:
+### Subject
 
-- Use the directory name or component name affected
-- Examples: `app`, `docs`, `scripts`, `config`
-- Use `rules` as a dedicated type for rule updates, not as scope
+- Imperative present tense
+- Lowercase first letter
+- No ending dot
+- Max 50 chars
 
-### Subject (Required)
+### Body
 
-- Use imperative, present tense: "change" not "changed" nor "changes"
-- Don't capitalize first letter
-- No dot (.) at the end
-- Keep it concise (50 characters or less)
+- Imperative present tense
+- Explain what/why vs how
+- Use ordered lists
+- Wrap at 72 chars
+- Add trailing dots
 
-### Body (Optional)
+### Footer
 
-- Use imperative, present tense
-- Include motivation for the change and contrasts with previous behavior
-- Wrap at 72 characters
-- Explain what and why vs. how
-- Use ordered lists for detailed descriptions
-- Add trailing dots for all list items
+- Reference issues
+- BREAKING CHANGE
 
-### Footer (Optional)
+## PR Messages
 
-- Reference issue tracker IDs
-- BREAKING CHANGE: if any breaking changes
+1. Generate PR msg in `.message.md`.
+2. Use `git diff main...HEAD` for changes.
+3. Same format as commit messages.
 
-## Examples
+## Merge Conflicts
 
-### Example 1: Adding new features
-
-```
-feat(app): add user authentication system
-
-1. Implement login and registration functionality.
-2. Add password hashing and validation.
-3. Create session management system.
-4. Include error handling for authentication failures.
-```
-
-### Example 2: Multi-language commit message
-
-```
-feat(docs): add multi-language commit message support
-
-1. Detect user's language from prompt context.
-2. Generate additional commit message in user's language only when different from English.
-3. Maintain same commit type and scope structure.
-4. Separate language versions with horizontal rule.
-
----
-
-feat(docs): [translated subject]
-
-1. [translated body point 1].
-2. [translated body point 2].
-3. [translated body point 3].
-4. [translated body point 4].
-```
-
-## PR Message Generation Process
-
-1. When user requests PR message generation, generate a PR message in `.message.md` file at workspace root.
-2. Use `git diff main...HEAD` command to review changes between current branch and main branch (default).
-3. If user explicitly specifies a different base branch, use `git diff <base_branch>...HEAD` instead.
-4. Analyze the diff to understand the scope and impact of changes.
-5. Use `git log --oneline -10` command to understand recent commit context.
-6. Detect user's language from prompt context and generate additional PR message in user's language only when different from English.
-
-## PR Message Format
-
-Follow the same structured format as commit messages with multi-language support.
-
-### Type, Scope, Subject, Body, Footer
-
-Use the same definitions and requirements as commit messages.
-
-## Examples
-
-### Example 1: Feature PR message
-
-Follow the same format as commit message examples, using `.message.md` file.
-
-### Example 2: Multi-language PR message
-
-Follow the same multi-language format as commit message examples, using `.message.md` file.
-
-## Merge Conflict Resolution Process
-
-Follow the standard commit message generation process with these merge-specific considerations:
-
-1. When user requests to handle merge conflicts, resolve conflicts in affected files.
-2. After resolving conflicts, generate a commit message in `.commit.md` file at workspace root.
-3. Use `merge` type for merge operations and conflict resolutions.
-4. Use subject format: `merge: resolve conflicts from <source_branch> to <target_branch>`.
-5. Follow standard multi-language support rules.
-
-### Merge-Specific Guidelines
-
-- Subject must start with `merge:` prefix
-- Specify source and target branches in format: `from <source_branch> to <target_branch>`
-- Describe nature of conflicts resolved and key files affected
-- Use ordered lists for detailed descriptions of resolution approach
-
-## Examples
-
-### Example 1: Basic merge conflict resolution
-
-```
-merge: resolve conflicts from feature/user-auth to main
-
-1. Resolve conflicts in user authentication module.
-2. Merge login functionality from feature branch.
-3. Preserve main branch's error handling improvements.
-4. Update configuration files to accommodate both changes.
-```
-
-### Example 2: Multi-language merge commit message
-
-```
-merge: resolve conflicts from feature/api-integration to develop
-
-1. Resolve conflicts in API service layer.
-2. Merge new endpoint implementations from feature branch.
-3. Preserve develop branch's performance optimizations.
-4. Update documentation to reflect merged changes.
-
----
-
-merge: [translated subject]
-
-1. [translated body point 1].
-2. [translated body point 2].
-3. [translated body point 3].
-4. [translated body point 4].
-```
+1. Resolve conflicts in files.
+2. Generate commit msg in `.commit.md`.
+3. Use `merge` type.
+4. Subject: `merge: resolve conflicts from <source> to <target>`.
