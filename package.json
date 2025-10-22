@@ -13,7 +13,8 @@
     "dev": "DOCS_MODE=true vite dev",
     "build": "vue-tsc --noEmit && DOCS_MODE=true vite build",
     "storybook": "storybook dev -p 6006",
-    "commit:as": "git add . && git commit -F .message.md && rm .message.md"
+    "message:clean": "rm -f .message.md",
+    "commit:as": "git add . && git commit -F .commit.md && rm .commit.md"
   },
   "dependencies": {
     "@tauri-apps/api": "^2.9.0",

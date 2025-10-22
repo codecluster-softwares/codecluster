@@ -2,7 +2,7 @@
 
 ## Commit Message Generation Process
 
-1. After completing any task, generate a commit message in `.message.md` file at workspace root.
+1. After completing any task, generate a commit message in `.commit.md` file at workspace root.
 2. Use `git status` command to identify changed files and their status.
 3. Use `git diff` command to review specific changes in modified files.
 4. Use `git diff --staged` command to review staged changes.
@@ -122,3 +122,30 @@ feat(docs): [translated subject]
 3. [translated body point 3].
 4. [translated body point 4].
 ```
+
+## PR Message Generation Process
+
+1. When user requests PR message generation, generate a PR message in `.message.md` file at workspace root.
+2. Use `git diff main...HEAD` command to review changes between current branch and main branch (default).
+3. If user explicitly specifies a different base branch, use `git diff <base_branch>...HEAD` instead.
+4. Analyze the diff to understand the scope and impact of changes.
+5. Use `git log --oneline -10` command to understand recent commit context.
+6. Detect user's language from prompt context and generate additional PR message in user's language only when different from English.
+
+## PR Message Format
+
+Follow the same structured format as commit messages with multi-language support.
+
+### Type, Scope, Subject, Body, Footer
+
+Use the same definitions and requirements as commit messages.
+
+## Examples
+
+### Example 1: Feature PR message
+
+Follow the same format as commit message examples, using `.message.md` file.
+
+### Example 2: Multi-language PR message
+
+Follow the same multi-language format as commit message examples, using `.message.md` file.
