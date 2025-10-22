@@ -72,6 +72,17 @@
 1. Reference issues.
 2. BREAKING CHANGE.
 
+## Task Completion
+
+1. Automatically generate commit message when task is completed.
+2. Create `.commit.md` file with formatted commit message.
+3. Use appropriate type based on changes made.
+4. Include all significant changes in the commit message.
+5. Generate bilingual commit message when user asks in non-English language.
+6. Follow multi-lang format with English version first, then translated version.
+7. Execute `git add . && git commit -F .commit.md` to commit changes.
+8. Remove `.commit.md` file after successful commit.
+
 ## PR Messages
 
 1. Generate PR msg in `.message.md`.

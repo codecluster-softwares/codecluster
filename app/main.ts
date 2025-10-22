@@ -3,6 +3,20 @@ import { createApp } from "vue"
 import { createRouter, createWebHistory, RouteRecordRaw } from "vue-router"
 
 function* routes(): Generator<RouteRecordRaw> {
+  yield {
+    path: "/error/:title?/:message?",
+    component: () => import("@/routes/error.vue"),
+  }
+
+  yield {
+    path: "/:pathMatch(.*)*",
+    component: () => import("@/routes/error.vue"),
+    props: {
+      title: "404 - Page Not Found",
+      message: "Sorry, the page you are looking for does not exist.",
+    },
+  }
+
   const allRoutes = import.meta.glob("@/routes/**/*.vue")
   for (const [file, component] of Object.entries(allRoutes)) {
     let path = file
