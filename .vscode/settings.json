@@ -40,7 +40,8 @@
   // Special files.
   "files.associations": {
     "*.map": "json",
-    "pre-commit": "shellscript"
+    "pre-commit": "shellscript",
+    "pre-push": "shellscript"
   },
 
   // Code spell checker (require recommended extensions).

@@ -1,0 +1,12 @@
+#!/usr/bin/env sh
+
+# Node reviews.
+pnpm install
+pnpm review
+pnpm test
+pnpm build
+
+# Rust reviews.
+cargo build
+cargo check
+cargo test
