@@ -108,6 +108,13 @@ describe("copy-rules", () => {
       expect(mkdirSync).toHaveBeenCalledWith("./test-output", {
         recursive: true,
       })
+      // Should log start and success messages with chalk formatting
+      expect(consola.start).toHaveBeenCalledWith(
+        expect.stringContaining("Test Tool"),
+      )
+      expect(consola.success).toHaveBeenCalledWith(
+        expect.stringContaining("2 files"),
+      )
     })
 
     test("should bundle files to single file target", async () => {
@@ -128,6 +135,13 @@ describe("copy-rules", () => {
         expect.any(String),
         "utf-8",
       )
+      // Should log start and success messages with chalk formatting
+      expect(consola.start).toHaveBeenCalledWith(
+        expect.stringContaining("Test Tool"),
+      )
+      expect(consola.success).toHaveBeenCalledWith(
+        expect.stringContaining("2 files"),
+      )
     })
 
     test("should return 0 for non-existent source", async () => {
@@ -141,6 +155,80 @@ describe("copy-rules", () => {
       const fileCount = await copyRules("./non-existent-dir", tool)
 
       expect(fileCount).toBe(0)
+      // Should log warning for non-existent source
+      expect(consola.warn).toHaveBeenCalledWith(
+        expect.stringContaining("does not exist"),
+      )
+    })
+
+    test("should log info when no files are processed", async () => {
+      vi.mocked(existsSync).mockReturnValue(true)
+      vi.mocked(readdirSync).mockReturnValue([] as any)
+
+      const tool = {
+        name: "Test Tool",
+        path: "./test-output",
+        kind: "dir" as const,
+      }
+      const fileCount = await copyRules("./rules", tool)
+
+      expect(fileCount).toBe(0)
+      // Should log info message when no files are processed
+      expect(consola.info).toHaveBeenCalledWith(
+        expect.stringContaining("No files copied"),
+      )
+    })
+  })
+
+  describe("consola output format", () => {
+    test("should use chalk formatting in consola messages", async () => {
+      vi.mocked(existsSync).mockReturnValue(true)
+      vi.mocked(readdirSync).mockReturnValue(["rule1.md"] as any)
+      vi.mocked(statSync).mockReturnValue({
+        isDirectory: () => false,
+        isFile: () => true,
+        size: 100,
+      } as any)
+
+      const tool = {
+        name: "Test Tool",
+        path: "./test-output",
+        kind: "dir" as const,
+      }
+      await copyRules("./rules", tool)
+
+      // Verify consola methods are called with formatted messages
+      expect(consola.start).toHaveBeenCalled()
+      expect(consola.success).toHaveBeenCalled()
+      expect(consola.start).toHaveBeenCalledWith(
+        expect.stringContaining("Test Tool"),
+      )
+      expect(consola.success).toHaveBeenCalledWith(
+        expect.stringContaining("1 files"),
+      )
+    })
+
+    test("should log total rules size with chalk formatting", async () => {
+      vi.mocked(existsSync).mockReturnValue(true)
+      vi.mocked(readdirSync).mockReturnValue(["rule1.md"] as any)
+      vi.mocked(statSync).mockReturnValue({
+        isDirectory: () => false,
+        isFile: () => true,
+        size: 150,
+      } as any)
+
+      await copyRulesAll("./rules", tools)
+
+      // Verify total rules size is logged with chalk formatting
+      expect(consola.info).toHaveBeenCalledWith(
+        expect.stringContaining("Total rules size:"),
+      )
+      expect(consola.success).toHaveBeenCalledWith(
+        expect.stringContaining("tools configured"),
+      )
+      expect(consola.success).toHaveBeenCalledWith(
+        expect.stringContaining("bytes total"),
+      )
     })
   })
 })
