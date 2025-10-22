@@ -2,13 +2,13 @@
 
 ## Commit Message Generation Process
 
-1. After completing any task, generate a commit message in `.commit.md` file at workspace root.
-2. Use `git status` command to identify changed files and their status.
-3. Use `git diff` command to review specific changes in modified files.
-4. Use `git diff --staged` command to review staged changes.
-5. Use `git log --oneline -10` command to understand recent commit context.
-6. Analyze the changes to determine the appropriate commit type and scope.
-7. Detect user's language from prompt context and generate additional commit message in user's language only when different from English.
+1. After completing any task, generate commit msg in `.commit.md` at workspace root.
+2. Use `git status` cmd to identify changed files and their status.
+3. Use `git diff` cmd to review specific changes in modified files.
+4. Use `git diff --staged` cmd to review staged changes.
+5. Use `git log --oneline -10` cmd to understand recent commit context.
+6. Analyze changes to determine appropriate commit type and scope.
+7. Detect user's lang from prompt context and generate additional commit msg in user's lang only when different from English.
 
 ## Commit Message Format
 
@@ -24,7 +24,7 @@ Follow this structured format for all commit messages:
 
 ### Multi-language Support
 
-When user's language is different from English, append an additional commit message in user's language after the English version. If user's language is English, only generate the English version.
+When user's lang is different from English, append additional commit msg in user's lang after English version. If user's lang is English, only generate English version.
 
 ```
 <type>(<scope>): <subject>
@@ -42,10 +42,10 @@ When user's language is different from English, append an additional commit mess
 <translated_footer>
 ```
 
-- Use the same commit type and scope for both versions.
+- Use same commit type and scope for both versions.
 - Translate subject, body, and footer content accurately.
-- Maintain the same structure and formatting rules.
-- Separate language versions with `---` on a single line.
+- Maintain same structure and formatting rules.
+- Separate lang versions with `---` on a single line.
 
 ### Type (Required)
 
@@ -64,11 +64,11 @@ Use one of these commit types:
 
 ### Scope (Optional)
 
-Specify the scope of the change:
+Specify scope of change:
 
-- Use the directory name or component name affected
+- Use dir name or component name affected
 - Examples: `app`, `docs`, `scripts`, `config`
-- Use `rules` as a dedicated type for rule updates, not as scope
+- Use `rules` as dedicated type for rule updates, not as scope
 
 ### Subject (Required)
 
@@ -80,10 +80,10 @@ Specify the scope of the change:
 ### Body (Optional)
 
 - Use imperative, present tense
-- Include motivation for the change and contrasts with previous behavior
-- Wrap at 72 characters
+- Include motivation for change and contrasts with previous behavior
+- Wrap at 72 chars
 - Explain what and why vs. how
-- Use ordered lists for detailed descriptions
+- Use ordered lists for detailed desc
 - Add trailing dots for all list items
 
 ### Footer (Optional)
@@ -107,12 +107,12 @@ feat(app): add user authentication system
 ### Example 2: Multi-language commit message
 
 ```
-feat(docs): add multi-language commit message support
+feat(docs): add multi-lang commit msg support
 
-1. Detect user's language from prompt context.
-2. Generate additional commit message in user's language only when different from English.
+1. Detect user's lang from prompt context.
+2. Generate additional commit msg in user's lang only when different from English.
 3. Maintain same commit type and scope structure.
-4. Separate language versions with horizontal rule.
+4. Separate lang versions with horizontal rule.
 
 ---
 
@@ -126,12 +126,12 @@ feat(docs): [translated subject]
 
 ## PR Message Generation Process
 
-1. When user requests PR message generation, generate a PR message in `.message.md` file at workspace root.
-2. Use `git diff main...HEAD` command to review changes between current branch and main branch (default).
-3. If user explicitly specifies a different base branch, use `git diff <base_branch>...HEAD` instead.
-4. Analyze the diff to understand the scope and impact of changes.
-5. Use `git log --oneline -10` command to understand recent commit context.
-6. Detect user's language from prompt context and generate additional PR message in user's language only when different from English.
+1. When user requests PR msg generation, generate PR msg in `.message.md` at workspace root.
+2. Use `git diff main...HEAD` cmd to review changes between current branch and main branch (default).
+3. If user explicitly specifies different base branch, use `git diff <base_branch>...HEAD` instead.
+4. Analyze diff to understand scope and impact of changes.
+5. Use `git log --oneline -10` cmd to understand recent commit context.
+6. Detect user's lang from prompt context and generate additional PR msg in user's lang only when different from English.
 
 ## PR Message Format
 
@@ -153,20 +153,20 @@ Follow the same multi-language format as commit message examples, using `.messag
 
 ## Merge Conflict Resolution Process
 
-Follow the standard commit message generation process with these merge-specific considerations:
+Follow standard commit msg generation process with these merge-specific considerations:
 
 1. When user requests to handle merge conflicts, resolve conflicts in affected files.
-2. After resolving conflicts, generate a commit message in `.commit.md` file at workspace root.
-3. Use `merge` type for merge operations and conflict resolutions.
+2. After resolving conflicts, generate commit msg in `.commit.md` at workspace root.
+3. Use `merge` type for merge ops and conflict resolutions.
 4. Use subject format: `merge: resolve conflicts from <source_branch> to <target_branch>`.
-5. Follow standard multi-language support rules.
+5. Follow standard multi-lang support rules.
 
 ### Merge-Specific Guidelines
 
 - Subject must start with `merge:` prefix
 - Specify source and target branches in format: `from <source_branch> to <target_branch>`
 - Describe nature of conflicts resolved and key files affected
-- Use ordered lists for detailed descriptions of resolution approach
+- Use ordered lists for detailed desc of resolution approach
 
 ## Examples
 
@@ -187,9 +187,9 @@ merge: resolve conflicts from feature/user-auth to main
 merge: resolve conflicts from feature/api-integration to develop
 
 1. Resolve conflicts in API service layer.
-2. Merge new endpoint implementations from feature branch.
-3. Preserve develop branch's performance optimizations.
-4. Update documentation to reflect merged changes.
+2. Merge new endpoint impls from feature branch.
+3. Preserve develop branch's perf optimizations.
+4. Update docs to reflect merged changes.
 
 ---
 

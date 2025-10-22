@@ -1,8 +1,8 @@
 # Framework Guidelines
 
-1. Use `pnpm` as Node's package manager, don't use other package managers.
-2. Only use `pnpm` and `cargo` to run commands, don't use other command runners.
-3. Don't add any new frameworks, request human to do that when necessary.
+1. Use `pnpm` as Node's pkg manager, don't use other pkg managers.
+2. Only use `pnpm` and `cargo` to run cmds, don't use other cmd runners.
+3. Don't add new frameworks, request human to do that when necessary.
 
 ## Rules Guidelines
 
