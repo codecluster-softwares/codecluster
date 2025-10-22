@@ -14,14 +14,13 @@
 
 ## Commit Message Generation
 
-1. **MUST** generate commit message after **every** task completion.
-2. The commit messages should be generated into the `.commit.md` file.
-3. Use `git status` and `git diff` to review changes.
-4. Use `git log --oneline -10` for context.
-5. Follow commit message format from git-messages.md.
-6. Include multi-lang support when user lang differs from English.
-7. Base commit message on actual git changes, not context assumptions.
-8. Keep commit message concise with line width control.
+1. Generate commit messages into `.commit.md` file.
+2. Use `git status` and `git diff` to review changes.
+3. Use `git log --oneline -10` for context.
+4. Follow commit message format from git-messages.md.
+5. Include multi-lang support when user lang differs from English.
+6. Base commit message on actual git changes, not context assumptions.
+7. Keep commit message concise with line width control.
 
 ## Rule Writing Principle
 
