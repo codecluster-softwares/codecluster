@@ -35,7 +35,7 @@ const testStorybook = defineProject({
 })
 
 export default defineConfig({
-  plugins: [vue()],
+  plugins: [vue(), vueJsx()],
   root: appDir,
   resolve: { alias: { "@": appDir } },
   define: {
