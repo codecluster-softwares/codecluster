@@ -52,12 +52,17 @@
     "Cargo.lock"
   ],
   "cSpell.words": [
+    "appindicator",
     "cdylib",
     "clinerules",
     "codecluster",
     "esbenp",
     "esbuild",
     "icns",
+    "libayatana",
+    "librsvg",
+    "libwebkit",
+    "libxdo",
     "oneline",
     "oxlint",
     "qwen",
