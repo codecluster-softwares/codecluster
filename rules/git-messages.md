@@ -60,6 +60,7 @@ Use one of these commit types:
 - `build`: Changes that affect the build system or external dependencies
 - `chore`: Other changes that had not been classified
 - `revert`: Reverts a previous commit
+- `merge`: Merge operations and conflict resolutions
 
 ### Scope (Optional)
 
@@ -149,3 +150,53 @@ Follow the same format as commit message examples, using `.message.md` file.
 ### Example 2: Multi-language PR message
 
 Follow the same multi-language format as commit message examples, using `.message.md` file.
+
+## Merge Conflict Resolution Process
+
+Follow the standard commit message generation process with these merge-specific considerations:
+
+1. When user requests to handle merge conflicts, resolve conflicts in affected files.
+2. After resolving conflicts, generate a commit message in `.commit.md` file at workspace root.
+3. Use `merge` type for merge operations and conflict resolutions.
+4. Use subject format: `merge: resolve conflicts from <source_branch> to <target_branch>`.
+5. Follow standard multi-language support rules.
+
+### Merge-Specific Guidelines
+
+- Subject must start with `merge:` prefix
+- Specify source and target branches in format: `from <source_branch> to <target_branch>`
+- Describe nature of conflicts resolved and key files affected
+- Use ordered lists for detailed descriptions of resolution approach
+
+## Examples
+
+### Example 1: Basic merge conflict resolution
+
+```
+merge: resolve conflicts from feature/user-auth to main
+
+1. Resolve conflicts in user authentication module.
+2. Merge login functionality from feature branch.
+3. Preserve main branch's error handling improvements.
+4. Update configuration files to accommodate both changes.
+```
+
+### Example 2: Multi-language merge commit message
+
+```
+merge: resolve conflicts from feature/api-integration to develop
+
+1. Resolve conflicts in API service layer.
+2. Merge new endpoint implementations from feature branch.
+3. Preserve develop branch's performance optimizations.
+4. Update documentation to reflect merged changes.
+
+---
+
+merge: [translated subject]
+
+1. [translated body point 1].
+2. [translated body point 2].
+3. [translated body point 3].
+4. [translated body point 4].
+```
