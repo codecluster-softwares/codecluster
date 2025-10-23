@@ -1,7 +1,8 @@
 <script setup lang="ts">
-import "@/themes.scss"
+import "@/styles/index.scss"
 import { onMounted } from "vue"
 import { RouterView } from "vue-router"
+
 onMounted(() => (document.title = "Code Cluster"))
 </script>
 

@@ -1,8 +1,6 @@
-$light-foreground: #2c2f30;
-$light-background: white;
-$dark-foreground: #cac9c4;
-$dark-background: #1d1f20;
+@use "./variables" as *;
 
+// Apply theme to the document root.
 html {
   &,
   &[data-theme="system"] {

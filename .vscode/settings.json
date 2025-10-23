@@ -24,6 +24,7 @@
     "*": "${capture}.map",
     "*.ts": "${capture}.test.ts",
     "*.vue": "${capture}.stories.tsx",
+    "*.scss": "${capture}.stories.tsx",
     "package.json": "pnpm-lock.yaml",
     "tsconfig.json": "tsconfig.node.json",
     "vite.config.ts": "vite-env.d.ts",
@@ -61,6 +62,7 @@
     "codecluster",
     "esbenp",
     "esbuild",
+    "folderid",
     "icns",
     "impls",
     "libayatana",
@@ -77,6 +79,7 @@
     "swatinem",
     "tamasfe",
     "tauri",
+    "thiserror",
     "vite",
     "vitest"
   ]
