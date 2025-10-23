@@ -9,7 +9,7 @@
     "prepare-rules": "tsx scripts/prepare-rules.ts",
     "format": "prettier --write .",
     "review": "prettier --check . && oxlint && vue-tsc --noEmit",
-    "test": "vitest run || vitest run",
+    "test": "playwright install && vitest run || vitest run",
     "dev": "DOCS_MODE=true vite dev",
     "build": "vue-tsc --noEmit && DOCS_MODE=true vite build",
     "storybook": "storybook dev -p 6006",
