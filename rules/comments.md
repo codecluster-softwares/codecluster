@@ -9,7 +9,7 @@
 5. Use detailed bullet points for complex functions.
 6. Avoid unnecessary inline comments.
 7. Only add inline comments for meaningful context.
-8. If inline comments are necessary, always end them with a period.
+8. Always end inline comments with period.
 
 ## Structure
 
@@ -22,9 +22,6 @@
 7. Document return types and meanings.
 8. Control line width to avoid long lines.
 9. Avoid nested lists in documentation.
-10. Use concise language without redundancy.
-11. Always end complete sentences with periods.
-12. Keep line width under 80 characters for comments.
 
 ## Test Documentation
 
@@ -32,5 +29,5 @@
 2. First line: brief test purpose summary.
 3. Use paragraphs to describe test details.
 4. Avoid inline comments within test function bodies.
-5. Document what the test verifies and expected behavior.
+5. Document what test verifies and expected behavior.
 6. Keep test function names concise and descriptive.

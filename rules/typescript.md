@@ -2,18 +2,18 @@
 
 ## Code Style
 
-1. Write short concise if statements on single line when possible.
-2. Avoid adding blank lines on both sides of single line code.
-3. Use meaningful variable and function names.
-4. Prefer const over let for immutable values.
-5. Use TypeScript types and interfaces for better code documentation.
-6. Write simple async arrow functions on single line when under 80 chars.
-7. Avoid unnecessary intermediate variables when used only once.
+1. Write concise if statements on single line.
+2. Avoid blank lines around single line code.
+3. Use meaningful names.
+4. Prefer const over let.
+5. Use types/interfaces for documentation.
+6. Write simple async arrow functions on single line under 80 chars.
+7. Avoid unnecessary intermediate vars.
 
 ## Test Description Style
 
-1. Keep test descriptions concise and to the point.
-2. Avoid unnecessary articles, adverbs, and auxiliary words.
-3. Focus on clear meaning rather than perfect English grammar.
-4. Minimize comments in test code - only add when test logic is obscure.
-5. Add periods to all comments.
+1. Keep test descriptions concise.
+2. Avoid unnecessary words.
+3. Focus on clear meaning.
+4. Minimize comments - only when logic is obscure.
+5. Add periods to comments.
