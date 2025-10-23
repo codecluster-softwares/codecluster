@@ -19,3 +19,14 @@
 6. Include param types and purposes.
 7. Document return types and meanings.
 8. Always end complete sentences with periods.
+9. Avoid single-line details between empty lines.
+10. Keep line width under 80 characters for comments.
+
+## Test Documentation
+
+1. Add doc comments above test functions.
+2. First line: brief test purpose summary.
+3. Use paragraphs to describe test details.
+4. Avoid inline comments within test function bodies.
+5. Document what the test verifies and expected behavior.
+6. Keep test function names concise and descriptive.
