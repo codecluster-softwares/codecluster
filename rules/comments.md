@@ -6,8 +6,9 @@
 2. Write doc comments for all exported APIs.
 3. Skip detailed comments for obvious interface props.
 4. Document function params and return values.
-5. Avoid unnecessary inline comments.
-6. Only add inline comments for meaningful context.
+5. Use detailed bullet points for complex functions.
+6. Avoid unnecessary inline comments.
+7. Only add inline comments for meaningful context.
 
 ## Structure
 
@@ -18,3 +19,6 @@
 5. Add paragraphs after lists for details.
 6. Include param types and purposes.
 7. Document return types and meanings.
+8. Control line width to avoid long lines.
+9. Avoid nested lists in documentation.
+10. Use concise language without redundancy.

@@ -40,6 +40,8 @@
   // Special files.
   "files.associations": {
     "*.map": "json",
+    "post-checkout": "shellscript",
+    "post-merge": "shellscript",
     "pre-commit": "shellscript",
     "pre-push": "shellscript"
   },

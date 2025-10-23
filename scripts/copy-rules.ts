@@ -33,48 +33,57 @@ export const tools: ToolOptions[] = [
 ]
 
 /**
- * Recursively copies all files from a source folder to a target folder.
+ * Recursively copies all files and subdirectories from source to target.
  *
- * @param from - The source folder path to copy from.
- * @param to - The target folder path to copy to.
- * @returns The number of files successfully copied.
+ * Performs deep copy operation traversing entire directory tree.
+ * Handles both files and nested directories recursively.
+ *
+ * 1. Creates target directory if it doesn't exist.
+ * 2. Reads all items in source directory.
+ * 3. For directories: recursively copies subdirectory.
+ * 4. For files: copies file directly.
+ * 5. Processes all copy operations concurrently.
+ *
+ * @param from - Source folder path to copy from.
+ * @param to - Target folder path to copy to.
+ * @returns Promise resolving when all copy operations complete.
  */
-export async function copyRulesFolder(
-  from: string,
-  to: string,
-): Promise<number> {
+export async function copyRulesFolder(from: string, to: string): Promise<void> {
   if (!existsSync(from)) {
     consola.warn(`Source folder does not exist: ${chalk.dim(from)}`)
-    return 0
+    return
   }
 
   mkdirSync(to, { recursive: true })
-
-  const items = readdirSync(from)
-  const promises = items.map(async (item) => {
+  const promises = readdirSync(from).map(async (item) => {
     const sourcePath = join(from, item)
     const targetPath = join(to, item)
-
     const stat = statSync(sourcePath)
-    if (stat.isDirectory()) {
-      return await copyRulesFolder(sourcePath, targetPath)
-    } else {
-      copyFileSync(sourcePath, targetPath)
-      return 1
-    }
+    if (stat.isDirectory()) return await copyRulesFolder(sourcePath, targetPath)
+    copyFileSync(sourcePath, targetPath)
   })
 
-  const results = await Promise.all(promises)
-  const fileCount = results.reduce((sum, count) => sum + count, 0)
-  return fileCount
+  await Promise.all(promises)
 }
 
 /**
- * Bundles multiple markdown files from a source directory into a single target file.
+ * Bundles multiple markdown files into single target file.
  *
- * @param from - The source directory containing .md files to bundle.
- * @param to - The target file path where bundled content will be written.
- * @returns The number of files successfully bundled.
+ * Reads all .md files from source directory and combines them.
+ * Creates bundled file with proper separators and file headers.
+ *
+ * 1. Creates target directory if needed.
+ * 2. Filters for .md files only.
+ * 3. Reads each file's content.
+ * 4. Combines content with file headers and separators.
+ * 5. Writes bundled content to target file.
+ *
+ * Each file wrapped in comment header with filename.
+ * Files separated by '---' markers for clear boundaries.
+ *
+ * @param from - Source directory containing .md files to bundle.
+ * @param to - Target file path where bundled content written.
+ * @returns Number of markdown files successfully bundled.
  */
 export async function bundleRuleFile(
   from: string,
@@ -86,11 +95,9 @@ export async function bundleRuleFile(
   }
 
   const targetDir = dirname(to)
-  mkdirSync(targetDir, { recursive: true })
+  if (targetDir !== ".") mkdirSync(targetDir, { recursive: true })
 
-  const items = readdirSync(from)
-  const mdFiles = items.filter((item) => item.endsWith(".md"))
-
+  const mdFiles = readdirSync(from).filter((item) => item.endsWith(".md"))
   if (mdFiles.length === 0) {
     consola.warn(`No .md files found in: ${chalk.dim(from)}`)
     return 0
@@ -99,23 +106,30 @@ export async function bundleRuleFile(
   const bundledContent = mdFiles
     .map((file, index) => {
       const filePath = join(from, file)
-      const content = readFileSync(filePath, "utf-8")
+      const content = readFileSync(filePath, "utf-8").trim()
       const separator = index < mdFiles.length - 1 ? "\n\n---\n\n" : ""
       return `<!-- ${file} -->\n\n${content}${separator}`
     })
     .join("")
 
   writeFileSync(to, bundledContent, "utf-8")
-
   return mdFiles.length
 }
 
 /**
- * Copies or bundles rules based on the tool configuration.
+ * Copies or bundles rules based on tool configuration.
  *
- * @param from - The source directory containing rules to copy.
- * @param options - The tool configuration specifying how to handle the rules.
- * @returns The number of files processed (copied or bundled).
+ * Routes rule processing based on tool configuration.
+ * For directory tools: recursively copies all files.
+ * For file tools: bundles markdown files into single file.
+ *
+ * Provides progress logging and returns files processed.
+ * Directory copies return 1 if successful.
+ * File bundles return actual markdown files count.
+ *
+ * @param from - Source directory containing rules to copy.
+ * @param options - Tool configuration specifying rule handling.
+ * @returns Files processed (1 for directory, actual count for file).
  */
 export async function copyRules(
   from: string,
@@ -126,11 +140,12 @@ export async function copyRules(
   let fileCount = 0
   if (options.kind === "dir") {
     consola.start(`Copying rules for ${chalk.cyan(options.name)}...`)
-    fileCount = await copyRulesFolder(from, targetPath)
+    await copyRulesFolder(from, targetPath)
+    // For directory copy, we don't track exact file count
+    // Check if source exists to determine success
+    fileCount = existsSync(from) ? 1 : 0
     if (fileCount > 0) {
-      consola.success(
-        `Copied ${chalk.cyan(fileCount)} files to ${chalk.dim(targetPath)}`,
-      )
+      consola.success(`Copied rules to ${chalk.dim(targetPath)}`)
     } else {
       consola.info(`No files copied to ${chalk.dim(targetPath)}`)
     }
@@ -150,51 +165,59 @@ export async function copyRules(
 }
 
 /**
- * Calculates the total size in bytes of all rule files in the source directory.
+ * Calculates total size in bytes of markdown rule files.
  *
- * @param from - The source directory containing rules to calculate size for.
- * @returns The total size in bytes of all rule files.
+ * Scans source directory and sums file sizes of all .md files.
+ * Ignores directories and non-markdown files.
+ * Provides accurate measurement of rule content size.
+ *
+ * 1. Checks if source directory exists.
+ * 2. Iterates through all items in directory.
+ * 3. For each .md file: adds size to total.
+ * 4. Returns cumulative size in bytes.
+ *
+ * @param from - Source directory containing rules to calculate size.
+ * @returns Total size in bytes of all markdown rule files.
  */
-function calculateTotalRulesSize(from: string): number {
+export function calculateTotalRulesSize(from: string): number {
   if (!existsSync(from)) {
     consola.warn(`Source directory does not exist: ${chalk.dim(from)}`)
     return 0
   }
 
-  const items = readdirSync(from)
   let totalSize = 0
-
-  items.forEach((item) => {
+  readdirSync(from).forEach((item) => {
     const filePath = join(from, item)
     const stat = statSync(filePath)
-
-    if (stat.isFile() && item.endsWith(".md")) {
-      totalSize += stat.size
-    }
+    if (stat.isFile() && item.endsWith(".md")) totalSize += stat.size
   })
-
   return totalSize
 }
 
 /**
- * Copies rules for all specified tools.
+ * Copies rules for all specified tools in parallel.
  *
- * @param from - The source directory containing rules to copy.
+ * Orchestrates rule copying process for multiple tools simultaneously.
+ * Calculates total rules size upfront.
+ * Processes all tool configurations concurrently.
+ *
+ * 1. Calculates total size of markdown rule files.
+ * 2. Processes all tool configurations in parallel.
+ * 3. Tracks successful tool configurations.
+ * 4. Provides comprehensive completion summary.
+ *
+ * @param from - Source directory containing rules to copy.
  * @param options - Array of tool configurations to process.
- * @returns The number of tools that were successfully configured.
+ * @returns Number of tools successfully configured.
  */
 export async function copyRulesAll(
   from: string,
   options: ToolOptions[],
 ): Promise<number> {
-  // Calculate total rules size before processing
   const totalRulesSize = calculateTotalRulesSize(from)
   consola.info(`Total rules size: ${chalk.cyan(totalRulesSize)} bytes`)
 
-  const promises = options.map(async (tool) => {
-    return await copyRules(from, tool)
-  })
-
+  const promises = options.map(async (tool) => await copyRules(from, tool))
   const results = await Promise.all(promises)
   const successfulTools = results.filter((count) => count > 0).length
 
