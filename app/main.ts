@@ -1,3 +1,4 @@
+import locales from "@/locales/options"
 import RootComponent from "@/main.vue"
 import { createApp } from "vue"
 import { createRouter, createWebHistory, RouteRecordRaw } from "vue-router"
@@ -40,4 +41,4 @@ const router = createRouter({
   routes: [...routes()],
 })
 
-createApp(RootComponent).use(router).mount("div#app")
+createApp(RootComponent).use(router).use(locales).mount("div#app")

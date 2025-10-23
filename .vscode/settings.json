@@ -47,6 +47,17 @@
     "pre-push": "shellscript"
   },
 
+  // Translation files directory (require recommended extensions).
+  // "i18n-ally.displayLanguage": "xx",
+  "i18n-ally.sourceLanguage": "en",
+  "i18n-ally.localesPaths": ["app/locales/messages"],
+  "json.schemas": [
+    {
+      "fileMatch": ["app/locales/messages/*.json"],
+      "url": "./app/locales/.schema.json"
+    }
+  ],
+
   // Code spell checker (require recommended extensions).
   "cSpell.ignorePaths": [
     "node_modules",
@@ -69,6 +80,7 @@
     "librsvg",
     "libwebkit",
     "libxdo",
+    "lokalise",
     "oneline",
     "oxlint",
     "qwen",
