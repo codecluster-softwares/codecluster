@@ -18,8 +18,8 @@ jobs:
         run: |
           chmod +x scripts/detect-changes.sh
           scripts/detect-changes.sh \
-            "${{ github.event.pull_request.base.sha }}" \
-            "${{ github.sha }}"
+            "${{ github.event.pull_request.base.ref }}" \
+            "HEAD"
 
   pnpm:
     runs-on: ubuntu-latest
