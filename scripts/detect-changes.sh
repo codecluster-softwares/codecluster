@@ -24,10 +24,10 @@ if [ -z "$BASE_SHA" ] || [ -z "$HEAD_SHA" ]; then
 fi
 
 echo "Changed files:"
-git diff --name-only "$BASE_SHA"..."$HEAD_SHA"
+git diff --name-only "$BASE_SHA" "$HEAD_SHA"
 
 # Check for Rust file changes
-if git diff --name-only "$BASE_SHA"..."$HEAD_SHA" \
+if git diff --name-only "$BASE_SHA" "$HEAD_SHA" \
   | grep -q '\.rs$'; then
   echo "has-rust-changes=true" >> "$GITHUB_OUTPUT"
 else
@@ -35,7 +35,7 @@ else
 fi
 
 # Check for test file changes (.stories.tsx or .test.ts)
-if git diff --name-only "$BASE_SHA"..."$HEAD_SHA" \
+if git diff --name-only "$BASE_SHA" "$HEAD_SHA" \
   | grep -q '\.stories\.tsx$\|\.test\.ts$'; then
   echo "has-test-changes=true" >> "$GITHUB_OUTPUT"
 else
@@ -43,7 +43,7 @@ else
 fi
 
 # Check for frontend file changes (.vue, .ts, .scss, .html, .json in app/)
-if git diff --name-only "$BASE_SHA"..."$HEAD_SHA" \
+if git diff --name-only "$BASE_SHA" "$HEAD_SHA" \
   | grep -q '^app/.*\.\(vue\|ts\|scss\|html\|json\)$'; then
   echo "has-frontend-changes=true" >> "$GITHUB_OUTPUT"
 else
