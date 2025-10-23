@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import "@/common.scss"
+import "@/styles/index.scss"
 import { onMounted } from "vue"
 import { RouterView } from "vue-router"
 

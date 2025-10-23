@@ -1,0 +1,19 @@
+/**
+ * Common layout utility styles.
+ *
+ * Provides reusable container and centering classes for consistent layout.
+ *
+ * - `.container`: Full-width and height container with relative positioning
+ * - `.center`: Flexbox centering utility for both axes
+ */
+.container {
+  position: relative;
+  height: 100%;
+  width: 100%;
+}
+
+.center {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}

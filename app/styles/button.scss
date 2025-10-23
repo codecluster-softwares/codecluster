@@ -1,0 +1,66 @@
+@use "./variables" as *;
+
+// Common button styles (non-color related).
+button {
+  border: 1px solid;
+  border-radius: 0.25rem;
+  padding: 0.5rem 1rem;
+  cursor: pointer;
+  font-size: 0.875rem;
+  transition: all 0.2s ease;
+
+  &:disabled {
+    cursor: not-allowed;
+  }
+}
+
+// Color-specific button styles for light theme.
+body,
+body[data-theme="light"] {
+  button {
+    background-color: $light-foreground;
+    color: $light-background;
+    border-color: $light-foreground;
+
+    &:hover {
+      background-color: lighten($light-foreground, 10%);
+      border-color: lighten($light-foreground, 10%);
+    }
+
+    &:active {
+      background-color: darken($light-foreground, 10%);
+      border-color: darken($light-foreground, 10%);
+    }
+
+    &:disabled {
+      background-color: #cccccc;
+      color: #666666;
+      border-color: #cccccc;
+    }
+  }
+}
+
+// Color-specific button styles for dark theme.
+body [data-theme="dark"] {
+  button {
+    background-color: $dark-foreground;
+    color: $dark-background;
+    border-color: $dark-foreground;
+
+    &:hover {
+      background-color: lighten($dark-foreground, 10%);
+      border-color: lighten($dark-foreground, 10%);
+    }
+
+    &:active {
+      background-color: darken($dark-foreground, 10%);
+      border-color: darken($dark-foreground, 10%);
+    }
+
+    &:disabled {
+      background-color: #444444;
+      color: #888888;
+      border-color: #444444;
+    }
+  }
+}
