@@ -7,6 +7,8 @@
 3. Skip detailed comments for obvious interface props.
 4. Document function params and return values.
 5. Use detailed bullet points for complex functions.
+6. Avoid unnecessary inline comments.
+7. Only add inline comments for meaningful context.
 
 ## Structure
 
