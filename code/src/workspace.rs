@@ -4,9 +4,9 @@ use thiserror::Error;
 /// Errors that can occur when working with workspace configuration.
 #[derive(Error, Debug)]
 pub enum WorkspaceError {
-    /// Failed to get user home directory.
-    #[error("Failed to get user home directory")]
-    HomeDirNotFound,
+    /// Failed to get user config directory.
+    #[error("Failed to get user config directory")]
+    ConfigDirNotFound,
 
     /// Failed to read workspace file.
     #[error("Failed to read workspace file: {0}")]
@@ -17,27 +17,25 @@ pub enum WorkspaceError {
     WorkspaceFileNotFound,
 }
 
-/// Get the user's home directory.
+/// Get the user's config directory.
 ///
-/// Returns the home directory path or WorkspaceError::HomeDirNotFound if not found.
-pub fn get_home_dir() -> Result<PathBuf, WorkspaceError> {
-    dirs::home_dir().ok_or(WorkspaceError::HomeDirNotFound)
-}
-
-/// Get the path to the .codecluster configuration directory.
+/// Returns the config directory path or WorkspaceError::ConfigDirNotFound if not found.
 ///
-/// Returns the path to ~/.codecluster or error if home directory not found.
+/// Platform-specific paths:
+///
+/// - Linux: /home/alice/.config
+/// - Windows: C:\Users\Alice\AppData\Roaming
+/// - macOS: /Users/Alice/Library/Application Support
 pub fn get_config_dir() -> Result<PathBuf, WorkspaceError> {
-    let home_dir = get_home_dir()?;
-    Ok(home_dir.join(".codecluster"))
+    dirs::config_dir().ok_or(WorkspaceError::ConfigDirNotFound)
 }
 
 /// Get the path to the workspace file.
 ///
-/// Returns the path to ~/.codecluster/workspace or error if home directory not found.
+/// Returns the path to config_dir/.codecluster/workspace or error if config directory not found.
 pub fn get_workspace_file_path() -> Result<PathBuf, WorkspaceError> {
     let config_dir = get_config_dir()?;
-    Ok(config_dir.join("workspace"))
+    Ok(config_dir.join(".codecluster").join("workspace"))
 }
 
 /// Check if the workspace file exists.
@@ -66,14 +64,6 @@ pub fn read_workspace_path() -> Result<String, WorkspaceError> {
     Ok(content.trim().to_string())
 }
 
-/// Get the workspace path if available.
-///
-/// Returns Some(workspace_path) if the workspace file exists and can be read,
-/// None otherwise.
-pub fn get_workspace_path() -> Option<String> {
-    read_workspace_path().ok()
-}
-
 #[cfg(test)]
 mod tests {
     use super::*;
@@ -81,18 +71,12 @@ mod tests {
     use tempfile::tempdir;
 
     #[test]
-    fn test_get_home_dir() {
-        let home_dir = get_home_dir();
-        assert!(home_dir.is_ok());
-        assert!(home_dir.unwrap().exists());
-    }
-
-    #[test]
     fn test_get_config_dir() {
         let config_dir = get_config_dir();
         assert!(config_dir.is_ok());
         let config_path = config_dir.unwrap();
-        assert!(config_path.to_string_lossy().contains(".codecluster"));
+        // Config directory should exist on all platforms
+        assert!(config_path.exists());
     }
 
     #[test]
@@ -113,10 +97,11 @@ mod tests {
     #[test]
     fn test_workspace_file_operations() {
         let temp_dir = tempdir().unwrap();
-        let test_config_dir = temp_dir.path().join(".codecluster");
-        fs::create_dir_all(&test_config_dir).unwrap();
+        let test_config_dir = temp_dir.path();
+        let test_codecluster_dir = test_config_dir.join(".codecluster");
+        fs::create_dir_all(&test_codecluster_dir).unwrap();
 
-        let workspace_file = test_config_dir.join("workspace");
+        let workspace_file = test_codecluster_dir.join("workspace");
         let test_path = "/test/workspace/path";
         fs::write(&workspace_file, test_path).unwrap();
 
@@ -125,7 +110,7 @@ mod tests {
 
         // Test read_workspace_path
         let result = std::panic::catch_unwind(|| {
-            // We need to mock the home directory for this test
+            // We need to mock the config directory for this test
             // For now, just test that our functions work with the temp file
             let content = fs::read_to_string(&workspace_file).unwrap();
             assert_eq!(content.trim(), test_path);
