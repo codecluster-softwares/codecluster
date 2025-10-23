@@ -1,8 +1,10 @@
+// Foreground and background theme variables.
 $light-foreground: #2c2f30;
 $light-background: white;
 $dark-foreground: #cac9c4;
 $dark-background: #1d1f20;
 
+// Apply theme to the document root.
 html {
   &,
   &[data-theme="system"] {
@@ -25,5 +27,24 @@ html {
   &[data-theme="dark"] {
     background-color: $dark-background;
     color: $dark-foreground;
+  }
+}
+
+// General elements in light theme.
+body,
+body[data-theme="light"] {
+  button {
+  }
+
+  input {
+  }
+}
+
+// General elements in dark theme.
+body [data-theme="dark"] {
+  button {
+  }
+
+  input {
   }
 }

@@ -1,6 +1,6 @@
 import { withThemeByDataAttribute } from "@storybook/addon-themes"
 import type { Preview } from "@storybook/vue3-vite"
-import "../app/themes.scss"
+import "../app/common.scss"
 import "./decorator.scss"
 
 const preview: Preview = {
