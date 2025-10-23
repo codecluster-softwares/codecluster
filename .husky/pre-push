@@ -1,12 +1,25 @@
 #!/usr/bin/env sh
 
-# Node reviews.
-pnpm install
-pnpm review
-pnpm test
-pnpm build
+# Conditional reviews based on file changes.
+# Detect changes between current branch and remote main.
+eval "$(scripts/detect-changes.sh origin/main HEAD 2> /dev/null)"
+echo "Running conditional checks based on file changes..."
 
-# Rust reviews.
-cargo build
-cargo check
-cargo test
+# Always run review for code quality
+pnpm review
+
+# Conditional Node checks
+if [ "$HAS_FRONTEND_CHANGES" = "true" ]; then
+  pnpm build
+fi
+
+if [ "$HAS_TEST_CHANGES" = "true" ]; then
+  pnpm test
+fi
+
+# Conditional Rust checks
+if [ "$HAS_RUST_CHANGES" = "true" ]; then
+  cargo build
+  cargo check
+  cargo test
+fi
