@@ -1,33 +1,5 @@
-import { beforeEach, describe, expect, test, vi } from "vitest"
-import { copyRules, copyRulesAll, tools } from "./copy-rules"
-
-// Mock file system operations
-vi.mock("node:fs", () => ({
-  copyFileSync: vi.fn(),
-  existsSync: vi.fn(),
-  mkdirSync: vi.fn(),
-  readdirSync: vi.fn().mockReturnValue([]),
-  readFileSync: vi.fn(),
-  statSync: vi.fn(),
-  writeFileSync: vi.fn(),
-}))
-
-vi.mock("node:path", () => ({
-  dirname: vi.fn((path) => path.split("/").slice(0, -1).join("/") || "."),
-  join: vi.fn((...paths) => paths.join("/")),
-}))
-
-// Mock consola with factory function
-vi.mock("consola", () => ({
-  consola: {
-    warn: vi.fn(),
-    info: vi.fn(),
-    start: vi.fn(),
-    success: vi.fn(),
-  },
-}))
-
 import {
+  copyFileSync,
   existsSync,
   mkdirSync,
   readdirSync,
@@ -35,200 +7,153 @@ import {
   statSync,
   writeFileSync,
 } from "node:fs"
+import { join } from "node:path"
+import { beforeEach, describe, expect, test, vi } from "vitest"
+import {
+  bundleRuleFile,
+  calculateTotalRulesSize,
+  copyRulesFolder,
+} from "./copy-rules"
 
-import { consola } from "consola"
+vi.mock("node:fs")
+vi.mock("node:path")
+vi.mock("consola", () => ({
+  consola: {
+    warn: vi.fn(),
+    info: vi.fn(),
+    success: vi.fn(),
+    start: vi.fn(),
+  },
+}))
 
-describe("copy-rules", () => {
-  beforeEach(() => {
-    vi.clearAllMocks()
+describe("copyRulesFolder", () => {
+  beforeEach(() => vi.clearAllMocks())
+
+  test("skip when source folder not exist", async () => {
+    vi.mocked(existsSync).mockReturnValue(false)
+
+    await copyRulesFolder("/nonexistent", "/target")
+
+    expect(existsSync).toHaveBeenCalledWith("/nonexistent")
+    expect(mkdirSync).not.toHaveBeenCalled()
   })
 
-  describe("copyRulesAll", () => {
-    test("should process all tools and return successful count", async () => {
-      // Mock file system to simulate successful processing
-      vi.mocked(existsSync).mockReturnValue(true)
-      vi.mocked(statSync).mockReturnValue({
-        isDirectory: () => false,
-        isFile: () => true,
-        size: 100,
-      } as any)
-      vi.mocked(readdirSync).mockReturnValue(["rule1.md", "rule2.md"] as any)
-      vi.mocked(readFileSync).mockReturnValue("# Test Rule Content")
-
-      const successfulTools = await copyRulesAll("./rules", tools)
-
-      // Should process all tools successfully
-      expect(successfulTools).toBe(tools.length)
-      // Should call mkdirSync for directory tools with correct paths
-      expect(mkdirSync).toHaveBeenCalledWith(".clinerules", { recursive: true })
-      expect(mkdirSync).toHaveBeenCalledWith(".roo/rules", { recursive: true })
-      // Should NOT call mkdirSync for current directory (.)
-      // Should log total rules size
-      expect(consola.info).toHaveBeenCalledWith(
-        expect.stringContaining("Total rules size:"),
-      )
-      // Should log completion message
-      expect(consola.success).toHaveBeenCalledWith(
-        expect.stringContaining("Rules preparation completed!"),
-      )
+  test("copy files recursively", async () => {
+    vi.mocked(existsSync).mockReturnValue(true)
+    vi.mocked(readdirSync).mockReturnValue(["file1.md", "subdir"] as any)
+    vi.mocked(statSync).mockImplementation((path: string) => {
+      const stat = { isDirectory: vi.fn() }
+      if (path && path.includes("subdir")) {
+        stat.isDirectory.mockReturnValue(true)
+      } else {
+        stat.isDirectory.mockReturnValue(false)
+      }
+      return stat as any
     })
+    vi.mocked(join)
+      .mockReturnValueOnce("/source/file1.md")
+      .mockReturnValueOnce("/target/file1.md")
+      .mockReturnValueOnce("/source/subdir")
+      .mockReturnValueOnce("/target/subdir")
 
-    test("should handle non-existent source directory gracefully", async () => {
-      vi.mocked(existsSync).mockReturnValue(false)
+    await copyRulesFolder("/source", "/target")
 
-      const successfulTools = await copyRulesAll("./non-existent-dir", tools)
+    expect(mkdirSync).toHaveBeenCalledWith("/target", { recursive: true })
+    expect(copyFileSync).toHaveBeenCalledWith(
+      "/source/file1.md",
+      "/target/file1.md",
+    )
+  })
+})
 
-      // Should return 0 when source doesn't exist
-      expect(successfulTools).toBe(0)
-      // Should log warning
-      expect(consola.warn).toHaveBeenCalledWith(
-        expect.stringContaining("does not exist"),
-      )
-    })
+describe("bundleRuleFile", () => {
+  beforeEach(() => vi.clearAllMocks())
+
+  test("return 0 when source directory not exist", async () => {
+    vi.mocked(existsSync).mockReturnValue(false)
+    const result = await bundleRuleFile("/nonexistent", "/target.md")
+    expect(result).toBe(0)
   })
 
-  describe("copyRules", () => {
-    test("should copy files to directory target", async () => {
-      vi.mocked(existsSync).mockReturnValue(true)
-      vi.mocked(readdirSync).mockReturnValue(["rule1.md", "rule2.md"] as any)
-      vi.mocked(statSync).mockReturnValue({
-        isDirectory: () => false,
-        isFile: () => true,
-        size: 100,
-      } as any)
+  test("bundle markdown files with separators", async () => {
+    vi.mocked(existsSync).mockReturnValue(true)
+    vi.mocked(readdirSync).mockReturnValue(["rule1.md", "rule2.md"] as any)
+    vi.mocked(readFileSync)
+      .mockReturnValueOnce("Content 1")
+      .mockReturnValueOnce("Content 2")
+    vi.mocked(join)
+      .mockReturnValueOnce("/source/rule1.md")
+      .mockReturnValueOnce("/source/rule2.md")
 
-      const tool = {
-        name: "Test Tool",
-        path: "./test-output",
-        kind: "dir" as const,
-      }
-      const fileCount = await copyRules("./rules", tool)
+    const result = await bundleRuleFile("/source", "/target.md")
 
-      expect(fileCount).toBe(2) // Should process 2 files
-      expect(mkdirSync).toHaveBeenCalledWith("./test-output", {
-        recursive: true,
-      })
-      // Should log start and success messages with chalk formatting
-      expect(consola.start).toHaveBeenCalledWith(
-        expect.stringContaining("Test Tool"),
-      )
-      expect(consola.success).toHaveBeenCalledWith(
-        expect.stringContaining("2 files"),
-      )
-    })
-
-    test("should bundle files to single file target", async () => {
-      vi.mocked(existsSync).mockReturnValue(true)
-      vi.mocked(readdirSync).mockReturnValue(["rule1.md", "rule2.md"] as any)
-      vi.mocked(readFileSync).mockReturnValue("# Test Rule Content")
-
-      const tool = {
-        name: "Test Tool",
-        path: "./test-bundle.md",
-        kind: "file" as const,
-      }
-      const fileCount = await copyRules("./rules", tool)
-
-      expect(fileCount).toBe(2) // Should bundle 2 files
-      expect(writeFileSync).toHaveBeenCalledWith(
-        "./test-bundle.md",
-        expect.any(String),
-        "utf-8",
-      )
-      // Should log start and success messages with chalk formatting
-      expect(consola.start).toHaveBeenCalledWith(
-        expect.stringContaining("Test Tool"),
-      )
-      expect(consola.success).toHaveBeenCalledWith(
-        expect.stringContaining("2 files"),
-      )
-    })
-
-    test("should return 0 for non-existent source", async () => {
-      vi.mocked(existsSync).mockReturnValue(false)
-
-      const tool = {
-        name: "Test Tool",
-        path: "./test-output",
-        kind: "dir" as const,
-      }
-      const fileCount = await copyRules("./non-existent-dir", tool)
-
-      expect(fileCount).toBe(0)
-      // Should log warning for non-existent source
-      expect(consola.warn).toHaveBeenCalledWith(
-        expect.stringContaining("does not exist"),
-      )
-    })
-
-    test("should log info when no files are processed", async () => {
-      vi.mocked(existsSync).mockReturnValue(true)
-      vi.mocked(readdirSync).mockReturnValue([] as any)
-
-      const tool = {
-        name: "Test Tool",
-        path: "./test-output",
-        kind: "dir" as const,
-      }
-      const fileCount = await copyRules("./rules", tool)
-
-      expect(fileCount).toBe(0)
-      // Should log info message when no files are processed
-      expect(consola.info).toHaveBeenCalledWith(
-        expect.stringContaining("No files copied"),
-      )
-    })
+    expect(result).toBe(2)
+    expect(writeFileSync).toHaveBeenCalledWith(
+      "/target.md",
+      "<!-- rule1.md -->\n\nContent 1\n\n---\n\n<!-- rule2.md -->\n\nContent 2",
+      "utf-8",
+    )
   })
 
-  describe("consola output format", () => {
-    test("should use chalk formatting in consola messages", async () => {
-      vi.mocked(existsSync).mockReturnValue(true)
-      vi.mocked(readdirSync).mockReturnValue(["rule1.md"] as any)
-      vi.mocked(statSync).mockReturnValue({
-        isDirectory: () => false,
-        isFile: () => true,
-        size: 100,
-      } as any)
+  test("return 0 when no markdown files found", async () => {
+    vi.mocked(existsSync).mockReturnValue(true)
+    vi.mocked(readdirSync).mockReturnValue(["file.txt", "config.json"] as any)
+    const result = await bundleRuleFile("/source", "/target.md")
+    expect(result).toBe(0)
+  })
+})
 
-      const tool = {
-        name: "Test Tool",
-        path: "./test-output",
-        kind: "dir" as const,
+describe("calculateTotalRulesSize", () => {
+  beforeEach(() => vi.clearAllMocks())
+
+  test("return 0 when source directory not exist", () => {
+    vi.mocked(existsSync).mockReturnValue(false)
+    const result = calculateTotalRulesSize("/nonexistent")
+    expect(result).toBe(0)
+  })
+
+  test("calculate total size of markdown files only", () => {
+    vi.mocked(existsSync).mockReturnValue(true)
+    vi.mocked(readdirSync).mockReturnValue([
+      "rule1.md",
+      "rule2.md",
+      "config.json",
+    ] as any)
+    vi.mocked(statSync).mockImplementation((path: string) => {
+      const size = path.includes("rule1")
+        ? 100
+        : path.includes("rule2")
+          ? 200
+          : 50
+      const stat = { size, isFile: vi.fn().mockReturnValue(true) }
+      return stat as any
+    })
+    vi.mocked(join)
+      .mockReturnValueOnce("/source/rule1.md")
+      .mockReturnValueOnce("/source/rule2.md")
+      .mockReturnValueOnce("/source/config.json")
+
+    const result = calculateTotalRulesSize("/source")
+    expect(result).toBe(300)
+  })
+
+  test("ignore directories", () => {
+    vi.mocked(existsSync).mockReturnValue(true)
+    vi.mocked(readdirSync).mockReturnValue(["rule1.md", "subdir"] as any)
+    vi.mocked(statSync).mockImplementation((path: string) => {
+      const stat = { size: 100, isFile: vi.fn() }
+      if (path.includes("subdir")) {
+        stat.isFile.mockReturnValue(false)
+      } else {
+        stat.isFile.mockReturnValue(true)
       }
-      await copyRules("./rules", tool)
-
-      // Verify consola methods are called with formatted messages
-      expect(consola.start).toHaveBeenCalled()
-      expect(consola.success).toHaveBeenCalled()
-      expect(consola.start).toHaveBeenCalledWith(
-        expect.stringContaining("Test Tool"),
-      )
-      expect(consola.success).toHaveBeenCalledWith(
-        expect.stringContaining("1 files"),
-      )
+      return stat as any
     })
+    vi.mocked(join)
+      .mockReturnValueOnce("/source/rule1.md")
+      .mockReturnValueOnce("/source/subdir")
 
-    test("should log total rules size with chalk formatting", async () => {
-      vi.mocked(existsSync).mockReturnValue(true)
-      vi.mocked(readdirSync).mockReturnValue(["rule1.md"] as any)
-      vi.mocked(statSync).mockReturnValue({
-        isDirectory: () => false,
-        isFile: () => true,
-        size: 150,
-      } as any)
-
-      await copyRulesAll("./rules", tools)
-
-      // Verify total rules size is logged with chalk formatting
-      expect(consola.info).toHaveBeenCalledWith(
-        expect.stringContaining("Total rules size:"),
-      )
-      expect(consola.success).toHaveBeenCalledWith(
-        expect.stringContaining("tools configured"),
-      )
-      expect(consola.success).toHaveBeenCalledWith(
-        expect.stringContaining("bytes total"),
-      )
-    })
+    const result = calculateTotalRulesSize("/source")
+    expect(result).toBe(100)
   })
 })

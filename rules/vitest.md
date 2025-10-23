@@ -13,15 +13,16 @@
 2. Avoid testing TypeScript type definitions.
 3. Don't duplicate source code in test assertions.
 4. Avoid testing trivial getters/setters without logic.
-5. Don't write UI tests in TypeScript test files - use Storybook stories instead.
+5. Don't write UI tests in `xxx.test.ts` - use Storybook stories play instead.
 6. Avoid superficial assertions like `expect(fn).toHaveBeenCalled()` without verifying specific arguments or behavior.
 
 ## Test Structure
 
-1. Use descriptive test names explaining expected behavior.
-2. Group related tests in describe blocks.
-3. Test one concept per test case.
-4. Use beforeEach/afterEach for test setup/teardown.
+1. Use `test` instead of `it` for test definitions.
+2. Keep test descriptions concise without "should" prefix.
+3. Group related tests in describe blocks.
+4. Test one concept per test case.
+5. Use beforeEach/afterEach for test setup/teardown.
 
 ## Best Practices
 
