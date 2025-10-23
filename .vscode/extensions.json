@@ -8,6 +8,7 @@
     // Configurations.
     "tamasfe.even-better-toml",
     "redhat.vscode-yaml",
+    "lokalise.i18n-ally",
 
     // Code qualities.
     "oxc.oxc-vscode",

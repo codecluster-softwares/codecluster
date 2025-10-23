@@ -2,11 +2,11 @@
 
 ## Common Styles File
 
-1. `app/common.scss` contains theme variables and default element styles.
-2. Define color theme variables for light and dark modes.
-3. Apply theme to document root with system preference support.
-4. Define default styles for common elements like buttons and inputs.
-5. Create reusable utility classes to avoid style duplication.
-6. Use SCSS variables for consistent color management.
-7. Support both explicit theme selection and system preference.
-8. Organize styles by theme context for maintainability.
+1. `app/common.scss` contains theme vars and default styles.
+2. Define color theme vars for light/dark modes.
+3. Apply theme to root with system preference.
+4. Define default styles for buttons/inputs.
+5. Create reusable utility classes.
+6. Use SCSS vars for color management.
+7. Support explicit theme and system preference.
+8. Organize styles by theme context.

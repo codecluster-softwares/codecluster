@@ -31,7 +31,7 @@
 1. Same type/scope for both versions.
 2. Accurate translation.
 3. Separate with `---`.
-4. Scope is optional, can be omitted.
+4. Scope optional.
 
 ### Types
 
@@ -44,12 +44,11 @@
 7. `build`: Build system.
 8. `chore`: Other changes.
 9. `revert`: Revert commit.
-10. `merge`: Merge operations.
 
 ### Scope
 
 1. Optional: use dir/component name: `app`, `docs`, `scripts`, `config`.
-2. Omit scope when not applicable.
+2. Omit when not applicable.
 3. `rules` is type, not scope.
 
 ### Subject

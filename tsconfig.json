@@ -22,7 +22,7 @@
     "noFallthroughCasesInSwitch": true,
 
     // Path aliases.
-    "baseUrl": "ui",
+    "baseUrl": "app",
     "paths": { "@/*": ["./*"] }
   },
   "include": ["app", "vite-env.d.ts"],

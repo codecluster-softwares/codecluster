@@ -15,8 +15,8 @@
 ## Formatting
 
 1. Add trailing dots to all list items.
-2. Maximum 80 characters line width.
-3. Use abbreviations when meaning remains clear.
+2. Max 80 chars line width.
+3. Use abbreviations when meaning clear.
 4. Use proper English grammar and punctuation.
 5. Always end complete sentences with periods.
 6. Avoid informal language and slang.

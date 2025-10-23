@@ -4,8 +4,29 @@ on:
   pull_request: { branches: ["main"] }
 
 jobs:
+  detect-changes:
+    runs-on: ubuntu-latest
+    outputs:
+      has-rust-changes: ${{ steps.detect.outputs.has-rust-changes }}
+      has-test-changes: ${{ steps.detect.outputs.has-test-changes }}
+      has-frontend-changes: ${{ steps.detect.outputs.has-frontend-changes }}
+
+    steps:
+      - uses: actions/checkout@v5
+        with:
+          fetch-depth: 2 # Fetch current commit + base branch commit for comparison
+      - name: Detect file changes
+        id: detect
+        run: |
+          git fetch origin ${{ github.event.pull_request.base.ref }} --depth=1
+          chmod +x scripts/detect-changes.sh
+          scripts/detect-changes.sh \
+            "origin/${{ github.event.pull_request.base.ref }}" \
+            "HEAD"
+
   pnpm:
     runs-on: ubuntu-latest
+    needs: detect-changes
     steps:
       - uses: actions/checkout@v5
       - uses: actions/setup-node@v4
@@ -14,11 +35,20 @@ jobs:
 
       - run: pnpm install
       - run: pnpm review
-      - run: pnpm test
-      - run: pnpm build
 
+      # Conditional test: only if test files changed.
+      - if: needs.detect-changes.outputs.has-test-changes == 'true'
+        run: pnpm test
+
+      # Conditional build: only if frontend files changed.
+      - if: needs.detect-changes.outputs.has-frontend-changes == 'true'
+        run: pnpm build
+
+  # Conditional: only if Rust files changed.
   cargo:
     runs-on: ubuntu-latest
+    needs: detect-changes
+    if: needs.detect-changes.outputs.has-rust-changes == 'true'
     steps:
       - uses: actions/checkout@v5
 

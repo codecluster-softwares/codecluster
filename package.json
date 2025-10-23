@@ -9,7 +9,7 @@
     "prepare-rules": "tsx scripts/prepare-rules.ts",
     "format": "prettier --write .",
     "review": "prettier --check . && oxlint && vue-tsc --noEmit",
-    "test": "vitest run || vitest run",
+    "test": "playwright install && vitest run || vitest run",
     "dev": "DOCS_MODE=true vite dev",
     "build": "vue-tsc --noEmit && DOCS_MODE=true vite build",
     "storybook": "storybook dev -p 6006",
@@ -20,6 +20,7 @@
     "@tauri-apps/api": "^2.9.0",
     "@tauri-apps/plugin-opener": "^2.5.0",
     "vue": "^3.5.22",
+    "vue-i18n": "^11.1.12",
     "vue-router": "^4.6.3"
   },
   "devDependencies": {

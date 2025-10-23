@@ -1,6 +1,7 @@
+@use "sass:color";
 @use "./variables" as *;
 
-// Common button styles (non-color related).
+// Common button styles basic.
 button {
   border: 1px solid;
   border-radius: 0.25rem;
@@ -8,6 +9,16 @@ button {
   cursor: pointer;
   font-size: 0.875rem;
   transition: all 0.2s ease;
+
+  &:hover {
+    background-color: color.mix(white, $light-foreground, 10%);
+    border-color: color.mix(white, $light-foreground, 10%);
+  }
+
+  &:active {
+    background-color: color.mix(black, $light-foreground, 10%);
+    border-color: color.mix(black, $light-foreground, 10%);
+  }
 
   &:disabled {
     cursor: not-allowed;
@@ -21,16 +32,6 @@ body[data-theme="light"] {
     background-color: $light-foreground;
     color: $light-background;
     border-color: $light-foreground;
-
-    &:hover {
-      background-color: lighten($light-foreground, 10%);
-      border-color: lighten($light-foreground, 10%);
-    }
-
-    &:active {
-      background-color: darken($light-foreground, 10%);
-      border-color: darken($light-foreground, 10%);
-    }
 
     &:disabled {
       background-color: #cccccc;
@@ -46,16 +47,6 @@ body [data-theme="dark"] {
     background-color: $dark-foreground;
     color: $dark-background;
     border-color: $dark-foreground;
-
-    &:hover {
-      background-color: lighten($dark-foreground, 10%);
-      border-color: lighten($dark-foreground, 10%);
-    }
-
-    &:active {
-      background-color: darken($dark-foreground, 10%);
-      border-color: darken($dark-foreground, 10%);
-    }
 
     &:disabled {
       background-color: #444444;
