@@ -1,0 +1,17 @@
+{
+  "type": "object",
+  "required": ["meta"],
+  "additionalProperties": false,
+  "properties": {
+    "meta": {
+      "type": "object",
+      "required": ["code", "name"],
+      "additionalProperties": false,
+      "properties": {
+        "code": { "type": "string" },
+        "name": { "type": "string" }
+      }
+    },
+    "hello": { "type": "string" }
+  }
+}

@@ -1,5 +1,7 @@
 {
-  "current_language_code": "en",
-  "current_language_name": "English",
+  "meta": {
+    "code": "en",
+    "name": "English"
+  },
   "hello": "Hello"
 }
