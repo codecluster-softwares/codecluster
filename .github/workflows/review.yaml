@@ -9,29 +9,17 @@ jobs:
     outputs:
       has-rust-changes: ${{ steps.detect.outputs.has-rust-changes }}
       has-test-changes: ${{ steps.detect.outputs.has-test-changes }}
+      has-frontend-changes: ${{ steps.detect.outputs.has-frontend-changes }}
 
     steps:
       - uses: actions/checkout@v5
       - name: Detect file changes
         id: detect
         run: |
-          echo "Changed files:"
-          git diff --name-only origin/main...HEAD
-
-          # Check for Rust file changes
-          if git diff --name-only origin/main...HEAD | grep -q '\.rs$'; then
-            echo "has-rust-changes=true" >> $GITHUB_OUTPUT
-          else
-            echo "has-rust-changes=false" >> $GITHUB_OUTPUT
-          fi
-
-          # Check for test file changes (.stories.tsx or .test.ts)
-          if git diff --name-only origin/main...HEAD | \
-             grep -q '\.stories\.tsx$\|\.test\.ts$'; then
-            echo "has-test-changes=true" >> $GITHUB_OUTPUT
-          else
-            echo "has-test-changes=false" >> $GITHUB_OUTPUT
-          fi
+          chmod +x scripts/detect-changes.sh
+          scripts/detect-changes.sh \
+            "${{ github.event.pull_request.base.sha }}" \
+            "${{ github.sha }}"
 
   pnpm:
     runs-on: ubuntu-latest
@@ -44,11 +32,16 @@ jobs:
 
       - run: pnpm install
       - run: pnpm review
-      - name: Run tests (only if test files changed)
-        if: needs.detect-changes.outputs.has-test-changes == 'true'
-        run: pnpm test
-      - run: pnpm build
 
+      # Conditional test: only if test files changed.
+      - if: needs.detect-changes.outputs.has-test-changes == 'true'
+        run: pnpm test
+
+      # Conditional build: only if frontend files changed.
+      - if: needs.detect-changes.outputs.has-frontend-changes == 'true'
+        run: pnpm build
+
+  # Conditional: only if Rust files changed.
   cargo:
     runs-on: ubuntu-latest
     needs: detect-changes
