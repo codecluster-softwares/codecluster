@@ -1,24 +1,30 @@
 #!/usr/bin/env sh
 
+# Load color functions
+. scripts/utils.sh
+
 # Conditional reviews based on file changes.
 # Detect changes between head and previous commit.
 eval "$(scripts/detect-changes.sh HEAD~1 HEAD 2> /dev/null)"
-echo "Running conditional checks based on file changes..."
+blue "Running conditional checks based on file changes..."
 
 # Always run review for code quality
 pnpm review
 
 # Conditional Node checks
 if [ "$HAS_FRONTEND_CHANGES" = "true" ]; then
+  green "Building frontend..."
   pnpm build
 fi
 
 if [ "$HAS_TEST_CHANGES" = "true" ]; then
+  yellow "Running tests..."
   pnpm test
 fi
 
 # Conditional Rust checks
 if [ "$HAS_RUST_CHANGES" = "true" ]; then
+  red "Building and testing Rust..."
   cargo build
   cargo check
   cargo test
