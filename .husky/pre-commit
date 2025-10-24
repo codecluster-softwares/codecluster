@@ -1,7 +1,31 @@
 #!/usr/bin/env sh
 
-# Review but not test before normal commits.
-pnpm install
+# Load color functions
+. scripts/utils.sh
+
+# Conditional reviews based on file changes.
+# Detect changes between head and previous commit.
+eval "$(scripts/detect-changes.sh HEAD~1 HEAD 2> /dev/null)"
+blue "Running conditional checks based on file changes..."
+
+# Always run review for code quality
 pnpm review
-cargo build
-cargo check
+
+# Conditional Node checks
+if [ "$HAS_FRONTEND_CHANGES" = "true" ]; then
+  green "Building frontend..."
+  pnpm build
+fi
+
+if [ "$HAS_TEST_CHANGES" = "true" ]; then
+  yellow "Running tests..."
+  pnpm test
+fi
+
+# Conditional Rust checks
+if [ "$HAS_RUST_CHANGES" = "true" ]; then
+  red "Building and testing Rust..."
+  cargo build
+  cargo check
+  cargo test
+fi
