@@ -30,7 +30,7 @@
     "@storybook/addon-themes": "^9.1.13",
     "@storybook/addon-vitest": "^9.1.13",
     "@storybook/vue3-vite": "^9.1.13",
-    "@tauri-apps/cli": "^2.9.0",
+    "@tauri-apps/cli": "^2.9.1",
     "@types/node": "^24.9.1",
     "@vitejs/plugin-vue": "^6.0.1",
     "@vitejs/plugin-vue-jsx": "^5.1.1",
